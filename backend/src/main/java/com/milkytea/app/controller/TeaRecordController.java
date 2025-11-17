@@ -107,7 +107,13 @@ public class TeaRecordController {
 
     private TeaRecord convertToEntity(TeaRecordDTO dto) {
         TeaRecord record = new TeaRecord();
-        BeanUtils.copyProperties(dto, record);
+        record.setBrand(dto.getBrand());
+        record.setCategory(dto.getCategory());
+        record.setSweetness(dto.getSweetness());
+        record.setIceLevel(dto.getIceLevel());
+        record.setPrice(dto.getPrice());
+        record.setRating(dto.getRating());
+        record.setComment(dto.getComment());
         return record;
     }
 }
