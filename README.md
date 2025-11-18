@@ -33,6 +33,110 @@ MilkyTea/
 │   │   └── pom.xml                      # Maven 配置
 │   └── API文档.md                        # 详细的API接口文档
 └── frontend/         # React/Vue 前端（待开发）
+
+frontend/
+├── public/                          # 静态资源
+│   ├── favicon.ico
+│   └── index.html
+├── src/
+│   ├── api/                         # API 接口调用
+│   │   ├── auth.js                 # 认证相关 API
+│   │   ├── user.js                 # 用户相关 API
+│   │   ├── brands.js               # 品牌相关 API
+│   │   ├── records.js              # 记录相关 API
+│   │   ├── statistics.js           # 统计相关 API
+│   │   └── index.js                # API 统一导出
+│   ├── assets/                     # 静态资源
+│   │   ├── images/                 # 图片资源
+│   │   │   ├── logos/              # Logo
+│   │   │   └── avatars/            # 默认头像
+│   │   └── styles/                 # 样式文件
+│   │       ├── variables.scss      # SCSS 变量
+│   │       ├── mixins.scss         # SCSS 混合
+│   │       └── global.scss         # 全局样式
+│   ├── components/                 # 公共组件
+│   │   ├── common/                 # 通用组件
+│   │   │   ├── AppHeader.vue       # 头部导航
+│   │   │   ├── AppFooter.vue       # 底部信息
+│   │   │   ├── AppSidebar.vue      # 侧边栏
+│   │   │   ├── LoadingSpinner.vue  # 加载动画
+│   │   │   ├── ConfirmModal.vue    # 确认对话框
+│   │   │   └── EmptyState.vue      # 空状态提示
+│   │   ├── auth/                   # 认证相关组件
+│   │   │   ├── LoginForm.vue       # 登录表单
+│   │   │   └── RegisterForm.vue    # 注册表单
+│   │   ├── records/                # 记录相关组件
+│   │   │   ├── RecordForm.vue      # 记录表单
+│   │   │   ├── RecordList.vue      # 记录列表
+│   │   │   ├── RecordCard.vue      # 记录卡片
+│   │   │   └── RecordFilter.vue    # 记录筛选
+│   │   ├── statistics/             # 统计相关组件
+│   │   │   ├── StatsSummary.vue    # 统计概览
+│   │   │   ├── BrandStats.vue      # 品牌统计
+│   │   │   ├── CalendarView.vue    # 日历视图
+│   │   │   └── Charts/             # 图表组件
+│   │   │       ├── BarChart.vue
+│   │   │       ├── PieChart.vue
+│   │   │       └── LineChart.vue
+│   │   └── ui/                     # UI 基础组件
+│   │       ├── BaseButton.vue
+│   │       ├── BaseInput.vue
+│   │       ├── BaseSelect.vue
+│   │       ├── BaseModal.vue
+│   │       └── BaseTable.vue
+│   ├── layouts/                    # 页面布局
+│   │   ├── DefaultLayout.vue       # 默认布局（带导航）
+│   │   └── AuthLayout.vue          # 认证页面布局
+│   ├── router/                     # 路由配置
+│   │   └── index.js
+│   ├── store/                      # Vuex 状态管理
+│   │   ├── modules/                # Store 模块
+│   │   │   ├── auth.js             # 认证状态
+│   │   │   ├── user.js             # 用户信息
+│   │   │   ├── brands.js           # 品牌数据
+│   │   │   ├── records.js          # 记录数据
+│   │   │   └── statistics.js       # 统计数据
+│   │   └── index.js                # Store 主文件
+│   ├── utils/                      # 工具函数
+│   │   ├── request.js              # Axios 配置
+│   │   ├── auth.js                 # 认证工具
+│   │   ├── validation.js           # 表单验证
+│   │   ├── date.js                 # 日期处理
+│   │   └── constants.js            # 常量定义
+│   ├── views/                      # 页面组件
+│   │   ├── auth/                   # 认证页面
+│   │   │   ├── Login.vue           # 登录页
+│   │   │   └── Register.vue        # 注册页
+│   │   ├── dashboard/              # 仪表盘页面
+│   │   │   └── Dashboard.vue       # 首页/仪表盘
+│   │   ├── records/                # 记录管理页面
+│   │   │   ├── RecordListPage.vue  # 记录列表页
+│   │   │   ├── RecordCreate.vue    # 创建记录页
+│   │   │   ├── RecordEdit.vue      # 编辑记录页
+│   │   │   └── RecordDetail.vue    # 记录详情页
+│   │   ├── statistics/             # 统计分析页面
+│   │   │   ├── Statistics.vue      # 统计主页
+│   │   │   ├── BrandAnalysis.vue   # 品牌分析页
+│   │   │   └── CalendarViewPage.vue # 日历视图页
+│   │   ├── profile/                # 个人中心
+│   │   │   ├── Profile.vue         # 个人信息页
+│   │   │   └── ChangePassword.vue  # 修改密码页
+│   │   └── NotFound.vue            # 404 页面
+│   ├── App.vue                     # 根组件
+│   └── main.js                     # 入口文件
+├── tests/                          # 测试文件
+│   ├── unit/                       # 单元测试
+│   └── e2e/                        # 端到端测试
+├── docs/                           # 项目文档
+│   ├── development.md              # 开发指南
+│   ├── api.md                      # API 文档
+│   └── deployment.md               # 部署指南
+├── package.json
+├── vue.config.js                   # Vue 配置
+├── .env                            # 环境变量
+├── .env.development                # 开发环境变量
+├── .env.production                 # 生产环境变量
+└── README.md                       # 前端项目说明
 ```
 
 ## 功能特性
