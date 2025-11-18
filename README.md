@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # MilkyTea - 奶茶消费记录与统计系统
 
 一个基于 Spring Boot + React/Vue 的奶茶消费记录与统计系统，帮助用户追踪每日奶茶消费情况，提供消费统计和品牌偏好分析。
@@ -403,3 +404,43 @@ MIT License
 - 项目链接: https://github.com/sy0920/MilkyTea
 
 今天你喝奶茶了吗
+=======
+# frontend
+
+This template should help get you started developing with Vue 3 in Vite.
+
+## Recommended IDE Setup
+
+[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+
+## Recommended Browser Setup
+
+- Chromium-based browsers (Chrome, Edge, Brave, etc.):
+  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
+  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
+- Firefox:
+  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
+  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+
+## Customize configuration
+
+See [Vite Configuration Reference](https://vite.dev/config/).
+
+## Project Setup
+
+```sh
+npm install
+```
+
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
+```
+
+### Compile and Minify for Production
+
+```sh
+npm run build
+```
+>>>>>>> c4297ee (commit with adding .gitignore of frontend)
