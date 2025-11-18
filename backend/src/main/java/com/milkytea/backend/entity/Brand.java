@@ -5,41 +5,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "brands")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Brand {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "用户名不能为空")
-    @Size(min = 3, max = 50, message = "用户名长度必须在3-50之间")
+    @NotBlank(message = "品牌名称不能为空")
     @Column(unique = true, nullable = false)
-    private String username;
+    private String name;
 
-    @NotBlank(message = "邮箱不能为空")
-    @Email(message = "邮箱格式不正确")
-    @Column(unique = true, nullable = false)
-    private String email;
+    @Column(length = 500)
+    private String description;
 
-    @NotBlank(message = "密码不能为空")
-    @Column(nullable = false)
-    private String password;
-
-    private String nickname;
-
-    private String phone;
-
-    private String avatar;
+    @Column(name = "logo_url")
+    private String logoUrl;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
