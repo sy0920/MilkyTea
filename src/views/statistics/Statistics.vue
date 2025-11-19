@@ -16,7 +16,7 @@ function goTrend() { router.push('/statistics/trend') }
 </script>
 
 <template>
-	<div class="statistics-page">
+	<div>
 		<header class="topbar">
 			<div class="topbar-left">MilkyTea</div>
 			<div class="topbar-right">
@@ -28,21 +28,23 @@ function goTrend() { router.push('/statistics/trend') }
 		</header>
 
 		<main class="statistics-main">
-			<div class="stats-cards">
-				<div class="stat-card" @click="goBasic">
-					<img src="/src/assets/logo.svg" alt="basic" />
-					<h3>基础统计</h3>
-					<p>总杯数、总金额、平均价格等</p>
-				</div>
-				<div class="stat-card" @click="goBrands">
-					<img src="/src/assets/logo.svg" alt="brands" />
-					<h3>品牌统计</h3>
-					<p>按品牌查看消费分布</p>
-				</div>
-				<div class="stat-card" @click="goTrend">
-					<img src="/src/assets/logo.svg" alt="trend" />
-					<h3>趋势分析</h3>
-					<p>消费趋势图表</p>
+			<div class="container">
+				<div class="stats-cards">
+					<div class="stat-card" @click="goBasic">
+						<img src="/src/assets/logo.svg" alt="basic" />
+						<h3>基础统计</h3>
+						<p>总杯数、总金额、平均价格等</p>
+					</div>
+					<div class="stat-card" @click="goBrands">
+						<img src="/src/assets/logo.svg" alt="brands" />
+						<h3>品牌统计</h3>
+						<p>按品牌查看消费分布</p>
+					</div>
+					<div class="stat-card" @click="goTrend">
+						<img src="/src/assets/logo.svg" alt="trend" />
+						<h3>趋势分析</h3>
+						<p>消费趋势图表</p>
+					</div>
 				</div>
 			</div>
 		</main>

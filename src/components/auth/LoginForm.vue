@@ -30,16 +30,19 @@ async function submit() {
   <div class="login-form">
     <h2>登录</h2>
     <div v-if="error.message" class="error">{{ error.message }}</div>
-    <div>
+
+    <div class="form-group">
       <label>用户名</label>
-      <input v-model="form.username" placeholder="用户名或邮箱" />
+      <input class="form-control" v-model="form.username" placeholder="用户名或邮箱" />
     </div>
-    <div>
+
+    <div class="form-group">
       <label>密码</label>
-      <input v-model="form.password" type="password" placeholder="密码" />
+      <input class="form-control" v-model="form.password" type="password" placeholder="密码" />
     </div>
+
     <div class="actions">
-      <button class="btn-primary" @click.prevent="submit" :disabled="loading.value">登录</button>
+      <button class="btn btn--primary" @click.prevent="submit" :disabled="loading.value">登录</button>
       <div class="meta">
         <span>没有账号？</span>
         <router-link to="/auth/register" style="margin-left:6px">注册账号</router-link>
@@ -49,13 +52,9 @@ async function submit() {
 </template>
 
 <style scoped>
-.login-form { max-width: 420px; margin: 0 auto; background: #fff; padding:20px; border-radius:8px; box-shadow: 0 6px 18px rgba(22,32,51,0.06) }
-.login-form label { display:block; margin:8px 0 4px }
-.login-form input { width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:6px }
+.login-form { max-width: 420px; margin: 0 auto }
 .error { color: #c00; margin-bottom:8px }
 .login-form h2 { margin: 0 0 12px }
 .meta { font-size: 13px; color: #555 }
 .actions { display:flex; gap:12px; align-items:center; margin-top:12px; justify-content:space-between }
-.btn-primary { background:#38a169; color:#fff; border:none; padding:8px 14px; border-radius:6px; cursor:pointer }
-.btn-primary[disabled] { opacity:0.6; cursor:not-allowed }
 </style>

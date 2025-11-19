@@ -40,38 +40,40 @@ async function save() {
 </script>
 
 <template>
-  <div class="profile-page">
-    <h2>个人信息</h2>
-    <div v-if="error" class="error">{{ error }}</div>
-    <div v-if="success" class="success">{{ success }}</div>
-    <div>
-      <label>用户名</label>
-      <input :value="user.username" disabled />
-    </div>
-    <div>
-      <label>昵称</label>
-      <input v-model="user.nickname" />
-    </div>
-    <div>
-      <label>邮箱</label>
-      <input v-model="user.email" />
-    </div>
-    <div>
-      <label>手机号</label>
-      <input v-model="user.phone" />
-    </div>
-    <div>
-      <label>头像 URL</label>
-      <input v-model="user.avatar" />
-    </div>
-    <div style="margin-top:12px">
-      <button @click.prevent="save" :disabled="loading">保存</button>
+  <div class="container">
+    <div class="card profile-page">
+      <h2>个人信息</h2>
+      <div v-if="error" class="error">{{ error }}</div>
+      <div v-if="success" class="success">{{ success }}</div>
+      <div>
+        <label>用户名</label>
+        <input :value="user.username" disabled />
+      </div>
+      <div>
+        <label>昵称</label>
+        <input v-model="user.nickname" />
+      </div>
+      <div>
+        <label>邮箱</label>
+        <input v-model="user.email" />
+      </div>
+      <div>
+        <label>手机号</label>
+        <input v-model="user.phone" />
+      </div>
+      <div>
+        <label>头像 URL</label>
+        <input v-model="user.avatar" />
+      </div>
+      <div style="margin-top:12px">
+        <button @click.prevent="save" :disabled="loading">保存</button>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.profile-page { max-width: 700px; margin: 20px auto }
+.profile-page { max-width: 700px }
 .profile-page label { display:block; margin:8px 0 4px }
 .profile-page input { width:100%; padding:8px }
 .error { color:#c00 }

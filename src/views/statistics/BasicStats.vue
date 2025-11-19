@@ -38,41 +38,40 @@ function changePeriod(v) { period.value = v; load() }
 </script>
 
 <template>
-  <div class="basic-stats">
-    <div class="controls">
-      <label>统计周期：</label>
-      <button :class="{active: period===30}" @click.prevent="changePeriod(30)">近30天</button>
-      <button :class="{active: period===15}" @click.prevent="changePeriod(15)">近15天</button>
-      <button :class="{active: period===7}" @click.prevent="changePeriod(7)">近7天</button>
-    </div>
+  <div class="container">
+    <div class="card basic-stats">
+      <div class="controls">
+        <label>统计周期：</label>
+        <button :class="['btn', period===30 ? 'btn--primary' : 'btn--outline']" @click.prevent="changePeriod(30)">近30天</button>
+        <button :class="['btn', period===15 ? 'btn--primary' : 'btn--outline']" @click.prevent="changePeriod(15)">近15天</button>
+        <button :class="['btn', period===7 ? 'btn--primary' : 'btn--outline']" @click.prevent="changePeriod(7)">近7天</button>
+      </div>
 
-    <div class="stats-area">
-      <div class="stat-card">
-        <div class="value">{{ loading ? '...' : stats.totalCups }}</div>
-        <div class="label">喝奶茶杯数</div>
+      <div class="stats-area">
+        <div class="stat-card">
+          <div class="value">{{ loading ? '...' : stats.totalCups }}</div>
+          <div class="label">喝奶茶杯数</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">{{ loading ? '...' : stats.totalDays }}</div>
+          <div class="label">喝奶茶天数</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">{{ loading ? '...' : (stats.totalAmount !== undefined ? stats.totalAmount.toFixed(2) : '0.00') }}</div>
+          <div class="label">累计消费金额 (¥)</div>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="value">{{ loading ? '...' : stats.totalDays }}</div>
-        <div class="label">喝奶茶天数</div>
-      </div>
-      <div class="stat-card">
-        <div class="value">{{ loading ? '...' : (stats.totalAmount !== undefined ? stats.totalAmount.toFixed(2) : '0.00') }}</div>
-        <div class="label">累计消费金额 (¥)</div>
-      </div>
-    </div>
 
-    <div class="meta">
-      <router-link to="/statistics">返回统计主页</router-link>
-      <div v-if="error" class="error">{{ error }}</div>
+      <div class="meta">
+        <router-link to="/statistics">返回统计主页</router-link>
+        <div v-if="error" class="error">{{ error }}</div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.basic-stats { padding:24px }
 .controls { display:flex; gap:8px; align-items:center; margin-bottom:18px }
-.controls button { padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0; background:#fff; cursor:pointer }
-.controls button.active { background:#3182ce; color:#fff; border-color:#3182ce }
 .stats-area { display:flex; gap:20px; justify-content:flex-start; align-items:stretch; flex-wrap:wrap }
 .stat-card { flex:1 1 180px; background:#fff; padding:18px; border-radius:8px; text-align:center; box-shadow:0 6px 18px rgba(15,23,42,0.06) }
 .stat-card .value { font-size:28px; font-weight:700; color:#2d3748 }

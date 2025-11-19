@@ -77,7 +77,7 @@ function changePeriod(v) { period.value = v; load() }
 </script>
 
 <template>
-  <div class="trend-page">
+  <div>
     <header class="topbar">
       <div class="topbar-left">MilkyTea</div>
       <div class="topbar-right">
@@ -89,48 +89,52 @@ function changePeriod(v) { period.value = v; load() }
     </header>
 
     <main class="trend-main">
-      <div class="controls">
-        <label>统计周期：</label>
-        <button :class="{active: period===30}" @click.prevent="changePeriod(30)">近30天</button>
-        <button :class="{active: period===15}" @click.prevent="changePeriod(15)">近15天</button>
-        <button :class="{active: period===7}" @click.prevent="changePeriod(7)">近7天</button>
+      <div class="container">
+        <div class="card">
+          <div class="controls">
+            <label>统计周期：</label>
+            <button :class="['btn', period===30 ? 'btn--primary' : 'btn--outline']" @click.prevent="changePeriod(30)">近30天</button>
+            <button :class="['btn', period===15 ? 'btn--primary' : 'btn--outline']" @click.prevent="changePeriod(15)">近15天</button>
+            <button :class="['btn', period===7 ? 'btn--primary' : 'btn--outline']" @click.prevent="changePeriod(7)">近7天</button>
+          </div>
+
+          <section class="charts">
+            <div class="chart-card">
+              <h3>奶茶频率</h3>
+              <svg viewBox="0 0 600 160" preserveAspectRatio="none" class="chart-svg">
+                <polyline :points="(function(){
+                  const w = 580; const h = 120; const pad = 10; const n = labels.length
+                  if (n===0) return ''
+                  const max = Math.max(...freqData,1)
+                  return labels.map((_,i)=>{
+                    const x = pad + (i*(w)/(n-1||1))
+                    const y = pad + (h - (freqData[i]/max)*h)
+                    return `${x},${y}`
+                  }).join(' ')
+                })()" fill="none" stroke="#3182ce" stroke-width="2" />
+              </svg>
+            </div>
+
+            <div class="chart-card">
+              <h3>消费金额 (¥)</h3>
+              <svg viewBox="0 0 600 160" preserveAspectRatio="none" class="chart-svg">
+                <polyline :points="(function(){
+                  const w = 580; const h = 120; const pad = 10; const n = labels.length
+                  if (n===0) return ''
+                  const max = Math.max(...amountData,1)
+                  return labels.map((_,i)=>{
+                    const x = pad + (i*(w)/(n-1||1))
+                    const y = pad + (h - (amountData[i]/max)*h)
+                    return `${x},${y}`
+                  }).join(' ')
+                })()" fill="none" stroke="#38a169" stroke-width="2" />
+              </svg>
+            </div>
+          </section>
+
+          <div v-if="error" class="error">{{ error }}</div>
+        </div>
       </div>
-
-      <section class="charts">
-        <div class="chart-card">
-          <h3>奶茶频率</h3>
-          <svg viewBox="0 0 600 160" preserveAspectRatio="none" class="chart-svg">
-            <polyline :points="(function(){
-              const w = 580; const h = 120; const pad = 10; const n = labels.length
-              if (n===0) return ''
-              const max = Math.max(...freqData,1)
-              return labels.map((_,i)=>{
-                const x = pad + (i*(w)/(n-1||1))
-                const y = pad + (h - (freqData[i]/max)*h)
-                return `${x},${y}`
-              }).join(' ')
-            })()" fill="none" stroke="#3182ce" stroke-width="2" />
-          </svg>
-        </div>
-
-        <div class="chart-card">
-          <h3>消费金额 (¥)</h3>
-          <svg viewBox="0 0 600 160" preserveAspectRatio="none" class="chart-svg">
-            <polyline :points="(function(){
-              const w = 580; const h = 120; const pad = 10; const n = labels.length
-              if (n===0) return ''
-              const max = Math.max(...amountData,1)
-              return labels.map((_,i)=>{
-                const x = pad + (i*(w)/(n-1||1))
-                const y = pad + (h - (amountData[i]/max)*h)
-                return `${x},${y}`
-              }).join(' ')
-            })()" fill="none" stroke="#38a169" stroke-width="2" />
-          </svg>
-        </div>
-      </section>
-
-      <div v-if="error" class="error">{{ error }}</div>
     </main>
   </div>
 </template>
@@ -144,8 +148,6 @@ function changePeriod(v) { period.value = v; load() }
 
 .trend-main { padding:24px }
 .controls { display:flex; gap:8px; align-items:center; margin-bottom:18px }
-.controls button { padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0; background:#fff; cursor:pointer }
-.controls button.active { background:#3182ce; color:#fff; border-color:#3182ce }
 .charts { display:flex; gap:20px; flex-wrap:wrap; justify-content:center }
 .chart-card { width:48%; min-width:300px; background:#fff; padding:16px; border-radius:8px; box-shadow:0 6px 18px rgba(15,23,42,0.06) }
 .chart-svg { width:100%; height:160px; }
