@@ -5,18 +5,29 @@ import { login as apiLogin } from '../../api/auth'
 import { setToken, setUser } from '../../utils/auth'
 
 const router = useRouter()
-const form = reactive({ username: '', password: '' })
+const form = reactive({ phone: '', password: '' })
 const loading = reactive({ value: false })
 const error = reactive({ message: '' })
 
 async function submit() {
   error.message = ''
+  
+  // 前端验证
+  if (!form.phone || form.phone.trim().length !== 11 || !/^1[3-9]\d{9}$/.test(form.phone.trim())) {
+    error.message = '请输入11位有效的手机号'
+    return
+  }
+  if (!form.password || form.password.length < 6) {
+    error.message = '密码至少需要6个字符'
+    return
+  }
+  
   loading.value = true
   try {
-    const res = await apiLogin({ username: form.username, password: form.password })
+    const res = await apiLogin({ phone: form.phone.trim(), password: form.password })
     if (res && res.token) {
       setToken(res.token)
-      setUser({ id: res.userId, username: res.username, email: res.email })
+      setUser({ id: res.userId, username: res.username, phone: res.phone })
       const redirect = router.currentRoute.value.query.redirect || '/home'
       router.push(redirect)
     }
@@ -32,8 +43,8 @@ async function submit() {
     <div v-if="error.message" class="error">{{ error.message }}</div>
 
     <div class="form-group">
-      <label>用户名</label>
-      <input class="form-control" v-model="form.username" placeholder="用户名或邮箱" />
+      <label>手机号</label>
+      <input class="form-control" v-model="form.phone" type="tel" placeholder="请输入11位手机号" maxlength="11" />
     </div>
 
     <div class="form-group">

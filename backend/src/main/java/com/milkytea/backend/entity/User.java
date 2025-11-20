@@ -26,10 +26,10 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @NotBlank(message = "邮箱不能为空")
-    @Email(message = "邮箱格式不正确")
+    @NotBlank(message = "手机号不能为空")
+    @Size(min = 11, max = 11, message = "手机号必须为11位")
     @Column(unique = true, nullable = false)
-    private String email;
+    private String phone;
 
     @NotBlank(message = "密码不能为空")
     @Column(nullable = false)
@@ -37,7 +37,8 @@ public class User {
 
     private String nickname;
 
-    private String phone;
+    @Email(message = "邮箱格式不正确")
+    private String email;
 
     private String avatar;
 

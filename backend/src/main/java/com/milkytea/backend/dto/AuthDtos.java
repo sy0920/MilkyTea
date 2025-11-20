@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -21,10 +20,10 @@ public class AuthDtos {
         @Schema(description = "用户名", example = "zhangsan")
         private String username;
 
-        @NotBlank(message = "邮箱不能为空")
-        @Email(message = "邮箱格式不正确")
-        @Schema(description = "邮箱", example = "zhangsan@example.com")
-        private String email;
+        @NotBlank(message = "手机号不能为空")
+        @Size(min = 11, max = 11, message = "手机号必须为11位")
+        @Schema(description = "手机号", example = "13800138000")
+        private String phone;
 
         @NotBlank(message = "密码不能为空")
         @Size(min = 6, max = 100, message = "密码长度必须在6-100之间")
@@ -40,9 +39,10 @@ public class AuthDtos {
     @AllArgsConstructor
     @Schema(description = "登录请求")
     public static class LoginRequest {
-        @NotBlank(message = "用户名不能为空")
-        @Schema(description = "用户名", example = "zhangsan")
-        private String username;
+        @NotBlank(message = "手机号不能为空")
+        @Size(min = 11, max = 11, message = "手机号必须为11位")
+        @Schema(description = "手机号", example = "13800138000")
+        private String phone;
 
         @NotBlank(message = "密码不能为空")
         @Schema(description = "密码", example = "password123")
@@ -66,14 +66,14 @@ public class AuthDtos {
         @Schema(description = "用户名")
         private String username;
 
-        @Schema(description = "邮箱")
-        private String email;
+        @Schema(description = "手机号")
+        private String phone;
 
-        public AuthResponse(String token, Long userId, String username, String email) {
+        public AuthResponse(String token, Long userId, String username, String phone) {
             this.token = token;
             this.userId = userId;
             this.username = username;
-            this.email = email;
+            this.phone = phone;
         }
     }
 }

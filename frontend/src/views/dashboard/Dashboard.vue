@@ -1,10 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { getUser, clearAuth } from '../../utils/auth'
 
 const router = useRouter()
 const user = ref(getUser() || { username: '游客' })
+
+const avatarUrl = computed(() => {
+  return user.value.avatar || '/default-avatar.svg'
+})
 
 function goHome() {
 	router.push('/home')
@@ -30,6 +34,7 @@ function goStatistics() {
 		<header class="topbar">
 			<div class="topbar-left">MilkyTea</div>
 			<div class="topbar-right">
+				<img :src="avatarUrl" alt="头像" class="user-avatar" @click="goProfile" />
 				<span class="greet">你好，{{ user.username }}</span>
 				<button class="link" @click="goHome">主页</button>
 				<button class="link" @click="goProfile">个人信息</button>
@@ -65,6 +70,19 @@ function goStatistics() {
 .topbar { height:60px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.06) }
 .topbar-left { font-weight:700; color:#2d3748 }
 .topbar-right { display:flex; gap:12px; align-items:center }
+.user-avatar {
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	object-fit: cover;
+	cursor: pointer;
+	border: 2px solid #e2e8f0;
+	transition: transform 0.2s, border-color 0.2s;
+}
+.user-avatar:hover {
+	transform: scale(1.1);
+	border-color: #cbd5e0;
+}
 .greet { color:#4a5568 }
 .link { background:transparent; border:none; color:#2b6cb0; cursor:pointer }
 

@@ -36,6 +36,14 @@ public class UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
 
+        // 如果修改手机号,检查手机号是否已被使用
+        if (request.getPhone() != null && !request.getPhone().equals(user.getPhone())) {
+            if (userRepository.existsByPhone(request.getPhone())) {
+                throw new RuntimeException("手机号已被使用");
+            }
+            user.setPhone(request.getPhone());
+        }
+
         // 如果修改邮箱,检查邮箱是否已被使用
         if (request.getEmail() != null && !request.getEmail().equals(user.getEmail())) {
             if (userRepository.existsByEmail(request.getEmail())) {
@@ -46,10 +54,6 @@ public class UserService {
 
         if (request.getNickname() != null) {
             user.setNickname(request.getNickname());
-        }
-
-        if (request.getPhone() != null) {
-            user.setPhone(request.getPhone());
         }
 
         if (request.getAvatar() != null) {

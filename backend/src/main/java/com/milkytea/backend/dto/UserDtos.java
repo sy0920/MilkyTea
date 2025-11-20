@@ -50,14 +50,14 @@ public class UserDtos {
         private String nickname;
 
         @Email(message = "邮箱格式不正确")
-        @Schema(description = "邮箱", example = "zhangsan@example.com")
+        @Schema(description = "邮箱（可选）", example = "zhangsan@example.com")
         private String email;
 
-        @Size(max = 15, message = "手机号长度不能超过15位")
+        @Size(min = 11, max = 11, message = "手机号必须为11位")
         @Schema(description = "手机号", example = "13800138000")
         private String phone;
 
-        @Schema(description = "头像URL", example = "https://example.com/avatar.jpg")
+        @Schema(description = "头像（Base64或URL）")
         private String avatar;
     }
 

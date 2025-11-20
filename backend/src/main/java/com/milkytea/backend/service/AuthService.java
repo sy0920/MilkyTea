@@ -31,15 +31,15 @@ public class AuthService {
             throw new RuntimeException("用户名已存在");
         }
 
-        // 检查邮箱是否已存在
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("邮箱已被注册");
+        // 检查手机号是否已存在
+        if (userRepository.existsByPhone(request.getPhone())) {
+            throw new RuntimeException("手机号已被注册");
         }
 
         // 创建新用户
         User user = new User();
         user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setNickname(request.getNickname() != null ? request.getNickname() : request.getUsername());
 
@@ -48,27 +48,27 @@ public class AuthService {
         // 生成JWT令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getId());
-        claims.put("email", user.getEmail());
+        claims.put("phone", user.getPhone());
         String token = jwtUtil.generateToken(user.getUsername(), claims);
 
-        return new AuthDtos.AuthResponse(token, user.getId(), user.getUsername(), user.getEmail());
+        return new AuthDtos.AuthResponse(token, user.getId(), user.getUsername(), user.getPhone());
     }
 
     public AuthDtos.AuthResponse login(AuthDtos.LoginRequest request) {
+        // 根据手机号查找用户
+        User user = userRepository.findByPhone(request.getPhone())
+                .orElseThrow(() -> new RuntimeException("手机号或密码错误"));
+
         // 验证用户凭证
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-
-        // 获取用户信息
-        User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("用户不存在"));
+                new UsernamePasswordAuthenticationToken(user.getUsername(), request.getPassword()));
 
         // 生成JWT令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getId());
-        claims.put("email", user.getEmail());
+        claims.put("phone", user.getPhone());
         String token = jwtUtil.generateToken(user.getUsername(), claims);
 
-        return new AuthDtos.AuthResponse(token, user.getId(), user.getUsername(), user.getEmail());
+        return new AuthDtos.AuthResponse(token, user.getId(), user.getUsername(), user.getPhone());
     }
 }

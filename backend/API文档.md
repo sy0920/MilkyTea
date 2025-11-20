@@ -57,14 +57,14 @@
 ```json
 {
   "username": "zhangsan",
-  "email": "zhangsan@example.com",
+  "phone": "13800138000",
   "password": "password123",
   "nickname": "张三"
 }
 ```
 - 字段说明:
   - `username`(string, 必填): 3-50 个字符，唯一
-  - `email`(string, 必填): 邮箱格式，唯一
+  - `phone`(string, 必填): 11位手机号，唯一
   - `password`(string, 必填): 6-100 个字符
   - `nickname`(string, 选填): 不填默认与用户名相同
 - 成功响应(200):
@@ -74,27 +74,27 @@
   "type": "Bearer",
   "userId": 1,
   "username": "zhangsan",
-  "email": "zhangsan@example.com"
+  "phone": "13800138000"
 }
 ```
 - 失败响应(示例):
-  - 400 验证失败 / 用户名或邮箱已存在
+  - 400 验证失败 / 用户名或手机号已存在
 
 ### 用户登录
 
 - 接口: `POST /api/auth/login`
-- 描述: 使用用户名和密码登录
+- 描述: 使用手机号和密码登录
 - 请求头:
   - `Content-Type: application/json`
 - 请求体:
 ```json
 {
-  "username": "zhangsan",
+  "phone": "13800138000",
   "password": "password123"
 }
 ```
 - 成功响应(200): 与注册成功响应相同
-- 失败响应(401): `{"status":401,"message":"用户名或密码错误"}`
+- 失败响应(401): `{"status":401,"message":"手机号或密码错误"}`
 
 ---
 
@@ -132,11 +132,15 @@
 {
   "nickname": "张三丰",
   "email": "zhangsan_new@example.com",
-  "phone": "13800138000",
-  "avatar": "https://example.com/new-avatar.jpg"
+  "avatar": "data:image/png;base64,..."
 }
 ```
-- 成功响应(200): 返回最新用户信息（同“获取用户信息”）
+- 字段说明:
+  - `nickname`(string, 可选): 昵称
+  - `email`(string, 可选): 邮箱,如果修改会检查是否重复
+  - `avatar`(string, 可选): 头像(支持Base64或URL)
+  - 注: 手机号注册后不可修改
+- 成功响应(200): 返回最新用户信息（同"获取用户信息"）
 - 失败响应(400): `{"message":"邮箱已被使用"}`
 
 ### 修改密码
