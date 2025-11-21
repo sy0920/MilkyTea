@@ -31,7 +31,7 @@ function getFriendlyErrorMessage(status, serverMessage) {
             .replace(/java\..*?:/gi, '')
             .trim()
     }
-    
+
     // 使用预定义的友好消息
     return ERROR_MESSAGES[status] || '操作失败,请稍后重试'
 }
@@ -39,7 +39,10 @@ function getFriendlyErrorMessage(status, serverMessage) {
 async function request(path, options = {}) {
     const url = path.startsWith('http') ? path : `${BASE_URL}${path}`
     const headers = options.headers || {}
-    const token = getToken()
+    // 不要在认证相关接口（例如注册/登录）自动附带旧的 Authorization token，
+    // 否则可能使用已失效或不存在的 token 导致后端在 Jwt 过滤器中报错
+    const isAuthEndpoint = (typeof path === 'string' && path.includes('/api/auth')) || (typeof url === 'string' && url.includes('/api/auth'))
+    const token = isAuthEndpoint ? null : getToken()
     if (token) headers['Authorization'] = `Bearer ${token}`
     if (!headers['Content-Type'] && options.body && !(options.body instanceof FormData)) {
         headers['Content-Type'] = 'application/json'
@@ -55,11 +58,11 @@ async function request(path, options = {}) {
         const text = await res.text()
         let data = null
         try { data = text ? JSON.parse(text) : null } catch (e) { data = text }
-        
+
         if (!res.ok) {
             const serverMessage = data?.message || data?.error || ''
             const friendlyMessage = getFriendlyErrorMessage(res.status, serverMessage)
-            
+
             const err = new Error(friendlyMessage)
             err.status = res.status
             err.body = data
