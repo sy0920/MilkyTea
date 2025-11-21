@@ -39,33 +39,122 @@ async function submit() {
 
 <template>
   <div class="login-form">
-    <h2>登录</h2>
-    <div v-if="error.message" class="error">{{ error.message }}</div>
+    <div v-if="error.message" class="error-msg">{{ error.message }}</div>
 
     <div class="form-group">
-      <label>手机号</label>
-      <input class="form-control" v-model="form.phone" type="tel" placeholder="请输入11位手机号" maxlength="11" />
+      <input 
+        class="mt-input" 
+        v-model="form.phone" 
+        type="tel" 
+        placeholder="请输入手机号" 
+        maxlength="11" 
+      />
     </div>
 
     <div class="form-group">
-      <label>密码</label>
-      <input class="form-control" v-model="form.password" type="password" placeholder="密码" />
+      <input 
+        class="mt-input" 
+        v-model="form.password" 
+        type="password" 
+        placeholder="请输入密码" 
+      />
     </div>
 
     <div class="actions">
-      <button class="btn btn--primary" @click.prevent="submit" :disabled="loading.value">登录</button>
       <div class="meta">
         <span>没有账号？</span>
-        <router-link to="/auth/register" style="margin-left:6px">注册账号</router-link>
+        <router-link to="/auth/register" class="link">立即注册</router-link>
       </div>
+      <button class="mt-btn" @click.prevent="submit" :disabled="loading.value">
+        <span v-if="loading.value">登录中...</span>
+        <span v-else>登录</span>
+      </button>
     </div>
   </div>
 </template>
 
 <style scoped>
-.login-form { max-width: 420px; margin: 0 auto }
-.error { color: #c00; margin-bottom:8px }
-.login-form h2 { margin: 0 0 12px }
-.meta { font-size: 13px; color: #555 }
-.actions { display:flex; gap:12px; align-items:center; margin-top:12px; justify-content:space-between }
+.login-form { width: 100%; }
+.error-msg { 
+  color: var(--mt-error); 
+  background: #FFF0F0;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.form-group { margin-bottom: 20px; }
+
+.mt-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid transparent;
+  background-color: var(--mt-input-bg);
+  border-radius: var(--mt-radius);
+  font-size: 16px;
+  color: var(--mt-text-main);
+  transition: var(--mt-transition);
+  outline: none;
+}
+
+.mt-input:focus {
+  background-color: var(--mt-white);
+  border-color: var(--mt-primary);
+  box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.1);
+}
+
+.mt-input::placeholder {
+  color: #A0A0A0;
+}
+
+.actions {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mt-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--mt-primary);
+  color: white;
+  border: none;
+  border-radius: var(--mt-radius);
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--mt-transition);
+}
+
+.mt-btn:hover:not(:disabled) {
+  background-color: var(--mt-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+}
+
+.mt-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.meta {
+  font-size: 14px;
+  color: var(--mt-text-light);
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.link {
+  color: var(--mt-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
 </style>

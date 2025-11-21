@@ -9,6 +9,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -43,12 +44,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if (jwtUtil.validateToken(token)) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            try {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                if (jwtUtil.validateToken(token)) {
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            } catch (UsernameNotFoundException e) {
+                // token 中包含的用户名在当前系统中不存在（例如 token 过期或用户被删除），
+                // 忽略该异常，让请求继续而不是抛出 500 错误。后续接口应自行判断权限。
             }
         }
 

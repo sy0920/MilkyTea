@@ -63,39 +63,134 @@ function goBack() {
 
 <template>
   <div class="register-form">
-    <h2>注册</h2>
-    <div v-if="error.message" class="error">{{ error.message }}</div>
+    <div v-if="error.message" class="error-msg">{{ error.message }}</div>
 
     <div class="form-group">
-      <label>用户名 <span class="required">*</span></label>
-      <input class="form-control" v-model="form.username" placeholder="至少3个字符" required />
+      <input 
+        class="mt-input" 
+        v-model="form.username" 
+        placeholder="请输入用户名（至少3个字符）" 
+        required 
+      />
     </div>
 
     <div class="form-group">
-      <label>手机号 <span class="required">*</span></label>
-      <input class="form-control" v-model="form.phone" type="tel" placeholder="请输入11位手机号" maxlength="11" required />
+      <input 
+        class="mt-input" 
+        v-model="form.phone" 
+        type="tel" 
+        placeholder="请输入手机号" 
+        maxlength="11" 
+        required 
+      />
     </div>
 
+    <!-- Nickname is optional and not in prototype, keeping it hidden or removed for now to match prototype strictly -->
+    <!-- 
     <div class="form-group">
-      <label>昵称（可选）</label>
-      <input class="form-control" v-model="form.nickname" placeholder="昵称" />
-    </div>
+      <input class="mt-input" v-model="form.nickname" placeholder="昵称（可选）" />
+    </div> 
+    -->
 
     <div class="form-group">
-      <label>密码 <span class="required">*</span></label>
-      <input class="form-control" v-model="form.password" type="password" placeholder="至少6个字符" required />
+      <input 
+        class="mt-input" 
+        v-model="form.password" 
+        type="password" 
+        placeholder="请输入密码（至少6个字符）" 
+        required 
+      />
     </div>
 
     <div class="actions">
-      <button class="btn btn--primary" @click.prevent="submit" :disabled="loading.value">注册</button>
-      <button class="btn btn--outline" @click.prevent="goBack">返回</button>
+      <button class="mt-btn btn-secondary" @click.prevent="goBack">返回</button>
+      <button class="mt-btn btn-primary" @click.prevent="submit" :disabled="loading.value">
+        <span v-if="loading.value">注册中...</span>
+        <span v-else>立即注册</span>
+      </button>
     </div>
   </div>
 </template>
 
 <style scoped>
-.register-form { max-width: 520px; margin: 0 auto }
-.error { color:#c00; margin-bottom:8px; padding: 8px; background: #fee; border-radius: 4px }
-.required { color: #c00 }
-.actions { display:flex; gap:12px; align-items:center; margin-top:12px }
+.register-form { width: 100%; }
+.error-msg { 
+  color: var(--mt-error); 
+  background: #FFF0F0;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.form-group { margin-bottom: 20px; }
+
+.mt-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid transparent;
+  background-color: var(--mt-input-bg);
+  border-radius: var(--mt-radius);
+  font-size: 16px;
+  color: var(--mt-text-main);
+  transition: var(--mt-transition);
+  outline: none;
+}
+
+.mt-input:focus {
+  background-color: var(--mt-white);
+  border-color: var(--mt-primary);
+  box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.1);
+}
+
+.mt-input::placeholder {
+  color: #A0A0A0;
+}
+
+.actions {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+}
+
+.mt-btn {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: var(--mt-radius);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--mt-transition);
+}
+
+.btn-primary {
+  background-color: var(--mt-primary);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--mt-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 1px solid #E0E0E0;
+  color: var(--mt-text-light);
+}
+
+.btn-secondary:hover {
+  border-color: var(--mt-text-main);
+  color: var(--mt-text-main);
+  background-color: #FAFAFA;
+}
+
+.mt-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
 </style>

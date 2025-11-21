@@ -1,0 +1,23 @@
+:root {
+    /* Milk Tea Theme Palette */
+    --mt-primary: #D4A574;
+    /* Classic Milk Tea */
+    --mt-primary-dark: #B68D5D;
+    /* Darker Milk Tea */
+    --mt-secondary: #FDFBF7;
+    /* Cream Background */
+    --mt-accent: #8B5E3C;
+    /* Tapioca / Coffee */
+    --mt-text-main: #5D4037;
+    /* Dark Brown Text */
+    --mt-text-light: #8D7B75;
+    /* Light Brown Text */
+    --mt-white: #FFFFFF;
+    --mt-error: #FF6B6B;
+
+    /* UI Variables */
+    --mt-radius: 12px;
+    --mt-shadow: 0 8px 24px rgba(139, 94, 60, 0.15);
+    --mt-input-bg: #F5F0EB;
+    --mt-transition: all 0.3s ease;
+}
