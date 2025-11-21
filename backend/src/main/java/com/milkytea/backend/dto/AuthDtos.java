@@ -29,9 +29,6 @@ public class AuthDtos {
         @Size(min = 6, max = 100, message = "密码长度必须在6-100之间")
         @Schema(description = "密码", example = "password123")
         private String password;
-
-        @Schema(description = "昵称", example = "张三")
-        private String nickname;
     }
 
     @Data

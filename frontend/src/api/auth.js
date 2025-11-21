@@ -9,7 +9,7 @@ export async function register(payload) {
     // expected to contain token + user info
     if (data && data.token) {
         setToken(data.token)
-        setUser({ id: data.userId, username: data.username, email: data.email })
+        setUser({ id: data.userId, username: data.username, phone: data.phone })
     }
     return data
 }
@@ -21,7 +21,7 @@ export async function login(payload) {
     })
     if (data && data.token) {
         setToken(data.token)
-        setUser({ id: data.userId, username: data.username, email: data.email })
+        setUser({ id: data.userId, username: data.username, phone: data.phone })
     }
     return data
 }

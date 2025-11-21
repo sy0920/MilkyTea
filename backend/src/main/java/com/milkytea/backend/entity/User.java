@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -34,11 +33,6 @@ public class User {
     @NotBlank(message = "密码不能为空")
     @Column(nullable = false)
     private String password;
-
-    private String nickname;
-
-    @Email(message = "邮箱格式不正确")
-    private String email;
 
     private String avatar;
 

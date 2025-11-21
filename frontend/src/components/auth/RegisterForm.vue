@@ -5,7 +5,7 @@ import { register as apiRegister } from '../../api/auth'
 import { setToken, setUser } from '../../utils/auth'
 
 const router = useRouter()
-const form = reactive({ username: '', phone: '', password: '', nickname: '' })
+const form = reactive({ username: '', phone: '', password: '' })
 const loading = reactive({ value: false })
 const error = reactive({ message: '' })
 
@@ -31,8 +31,7 @@ async function submit() {
     const res = await apiRegister({
       username: form.username.trim(),
       phone: form.phone.trim(),
-      password: form.password,
-      nickname: form.nickname?.trim() || ''
+      password: form.password.trim()
     })
     if (res && res.token) {
       setToken(res.token)
@@ -74,11 +73,6 @@ function goBack() {
     <div class="form-group">
       <label>手机号 <span class="required">*</span></label>
       <input class="form-control" v-model="form.phone" type="tel" placeholder="请输入11位手机号" maxlength="11" required />
-    </div>
-
-    <div class="form-group">
-      <label>昵称（可选）</label>
-      <input class="form-control" v-model="form.nickname" placeholder="昵称" />
     </div>
 
     <div class="form-group">

@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -21,12 +20,6 @@ public class UserDtos {
 
         @Schema(description = "用户名")
         private String username;
-
-        @Schema(description = "邮箱")
-        private String email;
-
-        @Schema(description = "昵称")
-        private String nickname;
 
         @Schema(description = "手机号")
         private String phone;
@@ -46,13 +39,6 @@ public class UserDtos {
     @AllArgsConstructor
     @Schema(description = "更新用户信息请求")
     public static class UpdateProfileRequest {
-        @Schema(description = "昵称", example = "张三")
-        private String nickname;
-
-        @Email(message = "邮箱格式不正确")
-        @Schema(description = "邮箱（可选）", example = "zhangsan@example.com")
-        private String email;
-
         @Size(min = 11, max = 11, message = "手机号必须为11位")
         @Schema(description = "手机号", example = "13800138000")
         private String phone;

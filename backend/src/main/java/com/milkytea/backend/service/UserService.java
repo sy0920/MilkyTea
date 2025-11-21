@@ -23,8 +23,6 @@ public class UserService {
         return new UserDtos.UserProfileResponse(
                 user.getId(),
                 user.getUsername(),
-                user.getEmail(),
-                user.getNickname(),
                 user.getPhone(),
                 user.getAvatar(),
                 user.getCreatedAt(),
@@ -44,18 +42,6 @@ public class UserService {
             user.setPhone(request.getPhone());
         }
 
-        // 如果修改邮箱,检查邮箱是否已被使用
-        if (request.getEmail() != null && !request.getEmail().equals(user.getEmail())) {
-            if (userRepository.existsByEmail(request.getEmail())) {
-                throw new RuntimeException("邮箱已被使用");
-            }
-            user.setEmail(request.getEmail());
-        }
-
-        if (request.getNickname() != null) {
-            user.setNickname(request.getNickname());
-        }
-
         if (request.getAvatar() != null) {
             user.setAvatar(request.getAvatar());
         }
@@ -65,8 +51,6 @@ public class UserService {
         return new UserDtos.UserProfileResponse(
                 user.getId(),
                 user.getUsername(),
-                user.getEmail(),
-                user.getNickname(),
                 user.getPhone(),
                 user.getAvatar(),
                 user.getCreatedAt(),

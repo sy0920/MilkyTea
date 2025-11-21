@@ -7,7 +7,7 @@ import { getUser, setUser } from '../../utils/auth'
 const loading = ref(false)
 const success = ref('')
 const error = ref('')
-const user = ref(store.state.user || { username: '', email: '', nickname: '', phone: '', avatar: '' })
+const user = ref(store.state.user || { username: '', phone: '', avatar: '' })
 const fileInput = ref(null)
 const uploadedImage = ref('')
 
@@ -79,7 +79,7 @@ async function save() {
   success.value = ''
   loading.value = true
   try {
-    const updated = await updateProfile({ nickname: user.value.nickname, email: user.value.email, phone: user.value.phone, avatar: user.value.avatar })
+    const updated = await updateProfile({ phone: user.value.phone, avatar: user.value.avatar })
     user.value = updated
     success.value = '保存成功'
   } catch (e) {
@@ -129,16 +129,8 @@ async function save() {
         <input :value="user.username" disabled />
       </div>
       <div class="form-group">
-        <label>昵称</label>
-        <input v-model="user.nickname" placeholder="请输入昵称" />
-      </div>
-      <div class="form-group">
         <label>手机号</label>
         <input v-model="user.phone" type="tel" placeholder="请输入11位手机号" maxlength="11" disabled />
-      </div>
-      <div class="form-group">
-        <label>邮箱（可选）</label>
-        <input v-model="user.email" type="email" placeholder="请输入邮箱" />
       </div>
       <div style="margin-top:20px">
         <button @click.prevent="save" :disabled="loading" class="btn-save">
