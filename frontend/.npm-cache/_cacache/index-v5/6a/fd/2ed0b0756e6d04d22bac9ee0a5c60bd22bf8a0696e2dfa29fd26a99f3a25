@@ -1,0 +1,2 @@
+
+d8f654b70cd2d7f9658d2c022fd3c7acb3c0660f	{"key":"make-fetch-happen:request-cache:https://registry.npm.taobao.org/superjson","integrity":null,"time":1763807574815,"size":"262","metadata":{"time":1763807574815,"url":"https://registry.npm.taobao.org/superjson","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/html","date":"Sat, 22 Nov 2025 10:32:47 GMT","location":"https://registry.npmmirror.com/superjson"},"options":{"compress":true},"status":301}}

@@ -1,0 +1,2 @@
+
+3ca9546acad381e9014f5c99cd8b74d02ef13db0	{"key":"make-fetch-happen:request-cache:https://registry.npm.taobao.org/@esbuild%2flinux-loong64","integrity":null,"time":1763807574211,"size":"262","metadata":{"time":1763807574211,"url":"https://registry.npm.taobao.org/@esbuild%2flinux-loong64","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/html","date":"Sat, 22 Nov 2025 10:32:46 GMT","location":"https://registry.npmmirror.com/@esbuild%2flinux-loong64"},"options":{"compress":true},"status":301}}

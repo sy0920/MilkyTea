@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_BASE || 'http://localhost:8080'
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'
 
 function getToken() {
     try {
@@ -39,29 +39,64 @@ function getFriendlyErrorMessage(status, serverMessage) {
 async function request(path, options = {}) {
     const url = path.startsWith('http') ? path : `${BASE_URL}${path}`
     const headers = options.headers || {}
-    // 不要在认证相关接口（例如注册/登录）自动附带旧的 Authorization token，
-    // 否则可能使用已失效或不存在的 token 导致后端在 Jwt 过滤器中报错
-    const isAuthEndpoint = (typeof path === 'string' && path.includes('/api/auth')) || (typeof url === 'string' && url.includes('/api/auth'))
-    const token = isAuthEndpoint ? null : getToken()
-    if (token) headers['Authorization'] = `Bearer ${token}`
+
+    // 检查是否为认证相关接口
+    const isAuthEndpoint = path.includes('/api/auth')
+
+    // 只在非认证接口添加 Authorization token
+    if (!isAuthEndpoint) {
+        const token = getToken()
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`
+        }
+    }
+
+    // 自动设置 Content-Type
     if (!headers['Content-Type'] && options.body && !(options.body instanceof FormData)) {
         headers['Content-Type'] = 'application/json'
     }
 
-    const fetchOptions = Object.assign({}, options, { headers })
+    const fetchOptions = { ...options, headers }
+
+    // 自动序列化对象为 JSON
     if (fetchOptions.body && typeof fetchOptions.body === 'object' && !(fetchOptions.body instanceof FormData)) {
         fetchOptions.body = JSON.stringify(fetchOptions.body)
     }
 
     try {
+        // 添加调试信息
+        console.log('🚀 Request:', {
+            url,
+            method: fetchOptions.method || 'GET',
+            headers: fetchOptions.headers,
+            body: fetchOptions.body
+        })
+
         const res = await fetch(url, fetchOptions)
         const text = await res.text()
         let data = null
         try { data = text ? JSON.parse(text) : null } catch (e) { data = text }
 
+        // 添加响应调试信息
+        console.log('📥 Response:', {
+            status: res.status,
+            statusText: res.statusText,
+            data,
+            headers: Object.fromEntries([...res.headers])
+        })
+
         if (!res.ok) {
             const serverMessage = data?.message || data?.error || ''
             const friendlyMessage = getFriendlyErrorMessage(res.status, serverMessage)
+
+            // 详细错误信息
+            console.error('❌ API Error:', {
+                url,
+                status: res.status,
+                serverMessage,
+                friendlyMessage,
+                fullResponse: data
+            })
 
             const err = new Error(friendlyMessage)
             err.status = res.status

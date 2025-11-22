@@ -1,0 +1,2 @@
+
+202c4cebbe5e171103739299833bd7b5fbe898a6	{"key":"make-fetch-happen:request-cache:https://registry.npm.taobao.org/sugarss","integrity":null,"time":1763807554688,"size":"262","metadata":{"time":1763807554688,"url":"https://registry.npm.taobao.org/sugarss","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/html","date":"Sat, 22 Nov 2025 10:32:27 GMT","location":"https://registry.npmmirror.com/sugarss"},"options":{"compress":true},"status":301}}

@@ -3,7 +3,6 @@ import Login from '../views/auth/Login.vue'
 import Register from '../views/auth/Register.vue'
 import Profile from '../views/profile/Profile.vue'
 import Dashboard from '../views/dashboard/Dashboard.vue'
-import Home from '../components/HelloWorld.vue'
 import Statistics from '../views/statistics/Statistics.vue'
 import BasicStats from '../views/statistics/BasicStats.vue'
 import BrandAnalysis from '../views/statistics/BrandAnalysis.vue'
@@ -16,11 +15,11 @@ const routes = [
     { path: '/auth/register', component: Register },
     { path: '/profile', component: Profile, meta: { requiresAuth: true } },
     { path: '/home', component: Dashboard, meta: { requiresAuth: true } },
+    { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
     { path: '/statistics', component: Statistics, meta: { requiresAuth: true } },
     { path: '/statistics/basic', component: BasicStats, meta: { requiresAuth: true } },
     { path: '/statistics/brands', component: BrandAnalysis, meta: { requiresAuth: true } },
-    { path: '/statistics/trend', component: TrendAnalysis, meta: { requiresAuth: true } },
-    { path: '/home/legacy', component: Home }
+    { path: '/statistics/trend', component: TrendAnalysis, meta: { requiresAuth: true } }
 ]
 
 const router = createRouter({ history: createWebHistory(), routes })

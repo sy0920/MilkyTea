@@ -1,0 +1,2 @@
+
+9b8562926f22233f48d6ecdd878218cb3de39f05	{"key":"make-fetch-happen:request-cache:https://registry.npm.taobao.org/run-applescript","integrity":null,"time":1763807577260,"size":"262","metadata":{"time":1763807577260,"url":"https://registry.npm.taobao.org/run-applescript","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/html","date":"Sat, 22 Nov 2025 10:32:50 GMT","location":"https://registry.npmmirror.com/run-applescript"},"options":{"compress":true},"status":301}}

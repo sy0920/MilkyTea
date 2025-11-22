@@ -1,0 +1,2 @@
+
+e8120ea470bf09e6df3b2ff665bf9d0ecb7ad4e2	{"key":"make-fetch-happen:request-cache:https://registry.npm.taobao.org/@vue%2fdevtools-shared","integrity":null,"time":1763807573731,"size":"262","metadata":{"time":1763807573731,"url":"https://registry.npm.taobao.org/@vue%2fdevtools-shared","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/html","date":"Sat, 22 Nov 2025 10:32:46 GMT","location":"https://registry.npmmirror.com/@vue%2fdevtools-shared"},"options":{"compress":true},"status":301}}

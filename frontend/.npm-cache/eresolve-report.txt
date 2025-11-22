@@ -1,0 +1,395 @@
+# npm resolution error report
+
+2025-11-22T10:32:36.669Z
+
+While resolving: frontend@0.0.0
+Found: @vitejs/plugin-vue@6.0.1
+node_modules/@vitejs/plugin-vue
+  dev @vitejs/plugin-vue@"^5.0.0" from the root project
+
+Could not resolve dependency:
+dev @vitejs/plugin-vue@"^5.0.0" from the root project
+
+Conflicting peer dependency: vite@5.4.21
+node_modules/vite
+  peer vite@"^5.0.0 || ^6.0.0" from @vitejs/plugin-vue@5.2.4
+  node_modules/@vitejs/plugin-vue
+    dev @vitejs/plugin-vue@"^5.0.0" from the root project
+
+Fix the upstream dependency conflict, or retry
+this command with --force, or --legacy-peer-deps
+to accept an incorrect (and potentially broken) dependency resolution.
+
+Raw JSON explanation object:
+
+{
+  "code": "ERESOLVE",
+  "edge": {
+    "type": "dev",
+    "name": "@vitejs/plugin-vue",
+    "spec": "^5.0.0",
+    "error": "INVALID",
+    "from": {
+      "location": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+    }
+  },
+  "dep": {
+    "name": "@vitejs/plugin-vue",
+    "version": "5.2.4",
+    "whileInstalling": {
+      "name": "frontend",
+      "version": "0.0.0",
+      "path": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+    },
+    "location": "node_modules/@vitejs/plugin-vue",
+    "isWorkspace": false,
+    "dependents": [
+      {
+        "type": "dev",
+        "name": "@vitejs/plugin-vue",
+        "spec": "^5.0.0",
+        "error": "INVALID",
+        "from": {
+          "location": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+        }
+      }
+    ]
+  },
+  "current": {
+    "name": "@vitejs/plugin-vue",
+    "version": "6.0.1",
+    "location": "node_modules/@vitejs/plugin-vue",
+    "isWorkspace": false,
+    "dependents": [
+      {
+        "type": "dev",
+        "name": "@vitejs/plugin-vue",
+        "spec": "^5.0.0",
+        "error": "INVALID",
+        "from": {
+          "location": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+        }
+      }
+    ]
+  },
+  "peerConflict": {
+    "current": {
+      "name": "vite",
+      "version": "7.2.2",
+      "location": "node_modules/vite",
+      "isWorkspace": false,
+      "dependents": [
+        {
+          "type": "dev",
+          "name": "vite",
+          "spec": "^5.4.0",
+          "error": "INVALID",
+          "from": {
+            "location": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+          }
+        },
+        {
+          "type": "peer",
+          "name": "vite",
+          "spec": "^5.0.0 || ^6.0.0 || ^7.0.0",
+          "from": {
+            "name": "@vitejs/plugin-vue",
+            "version": "6.0.1",
+            "location": "node_modules/@vitejs/plugin-vue",
+            "isWorkspace": false,
+            "dependents": [
+              {
+                "type": "dev",
+                "name": "@vitejs/plugin-vue",
+                "spec": "^5.0.0",
+                "error": "INVALID",
+                "from": {
+                  "location": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "peer",
+          "name": "vite",
+          "spec": "^2.9.0 || ^3.0.0-0 || ^4.0.0-0 || ^5.0.0-0 || ^6.0.1 || ^7.0.0-0",
+          "from": {
+            "name": "vite-dev-rpc",
+            "version": "1.1.0",
+            "location": "node_modules/vite-dev-rpc",
+            "isWorkspace": false,
+            "dependents": [
+              {
+                "type": "prod",
+                "name": "vite-dev-rpc",
+                "spec": "^1.1.0",
+                "from": {
+                  "name": "vite-plugin-inspect",
+                  "version": "11.3.3",
+                  "location": "node_modules/vite-plugin-inspect",
+                  "isWorkspace": false,
+                  "dependents": [
+                    {
+                      "type": "prod",
+                      "name": "vite-plugin-inspect",
+                      "spec": "^11.3.3",
+                      "from": {
+                        "name": "vite-plugin-vue-devtools",
+                        "version": "8.0.5",
+                        "location": "node_modules/vite-plugin-vue-devtools",
+                        "isWorkspace": false,
+                        "dependents": [
+                          {
+                            "type": "dev",
+                            "name": "vite-plugin-vue-devtools",
+                            "spec": "^7.0.0",
+                            "error": "INVALID",
+                            "from": {
+                              "location": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "peer",
+          "name": "vite",
+          "spec": "^2.6.0 || ^3.0.0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0",
+          "from": {
+            "name": "vite-hot-client",
+            "version": "2.1.0",
+            "location": "node_modules/vite-hot-client",
+            "isWorkspace": false,
+            "dependents": [
+              {
+                "type": "prod",
+                "name": "vite-hot-client",
+                "spec": "^2.1.0",
+                "from": {
+                  "name": "@vue/devtools-core",
+                  "version": "8.0.5",
+                  "location": "node_modules/@vue/devtools-core",
+                  "isWorkspace": false,
+                  "dependents": [
+                    {
+                      "type": "prod",
+                      "name": "@vue/devtools-core",
+                      "spec": "^8.0.5",
+                      "from": {
+                        "name": "vite-plugin-vue-devtools",
+                        "version": "8.0.5",
+                        "location": "node_modules/vite-plugin-vue-devtools",
+                        "isWorkspace": false,
+                        "dependents": [
+                          {
+                            "type": "dev",
+                            "name": "vite-plugin-vue-devtools",
+                            "spec": "^7.0.0",
+                            "error": "INVALID",
+                            "from": {
+                              "location": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "prod",
+                "name": "vite-hot-client",
+                "spec": "^2.1.0",
+                "from": {
+                  "name": "vite-dev-rpc",
+                  "version": "1.1.0",
+                  "location": "node_modules/vite-dev-rpc",
+                  "isWorkspace": false,
+                  "dependents": [
+                    {
+                      "type": "prod",
+                      "name": "vite-dev-rpc",
+                      "spec": "^1.1.0",
+                      "from": {
+                        "name": "vite-plugin-inspect",
+                        "version": "11.3.3",
+                        "location": "node_modules/vite-plugin-inspect",
+                        "isWorkspace": false,
+                        "dependents": [
+                          {
+                            "type": "prod",
+                            "name": "vite-plugin-inspect",
+                            "spec": "^11.3.3",
+                            "from": {
+                              "name": "vite-plugin-vue-devtools",
+                              "version": "8.0.5",
+                              "location": "node_modules/vite-plugin-vue-devtools",
+                              "isWorkspace": false,
+                              "dependents": [
+                                {
+                                  "type": "dev",
+                                  "name": "vite-plugin-vue-devtools",
+                                  "spec": "^7.0.0",
+                                  "error": "INVALID",
+                                  "from": {
+                                    "location": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "peer",
+          "name": "vite",
+          "spec": "^6.0.0 || ^7.0.0-0",
+          "from": {
+            "name": "vite-plugin-inspect",
+            "version": "11.3.3",
+            "location": "node_modules/vite-plugin-inspect",
+            "isWorkspace": false,
+            "dependents": [
+              {
+                "type": "prod",
+                "name": "vite-plugin-inspect",
+                "spec": "^11.3.3",
+                "from": {
+                  "name": "vite-plugin-vue-devtools",
+                  "version": "8.0.5",
+                  "location": "node_modules/vite-plugin-vue-devtools",
+                  "isWorkspace": false,
+                  "dependents": [
+                    {
+                      "type": "dev",
+                      "name": "vite-plugin-vue-devtools",
+                      "spec": "^7.0.0",
+                      "error": "INVALID",
+                      "from": {
+                        "location": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "peer",
+          "name": "vite",
+          "spec": "^6.0.0 || ^7.0.0-0",
+          "from": {
+            "name": "vite-plugin-vue-devtools",
+            "version": "8.0.5",
+            "location": "node_modules/vite-plugin-vue-devtools",
+            "isWorkspace": false,
+            "dependents": [
+              {
+                "type": "dev",
+                "name": "vite-plugin-vue-devtools",
+                "spec": "^7.0.0",
+                "error": "INVALID",
+                "from": {
+                  "location": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "peer",
+          "name": "vite",
+          "spec": "^3.0.0-0 || ^4.0.0-0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0",
+          "from": {
+            "name": "vite-plugin-vue-inspector",
+            "version": "5.3.2",
+            "location": "node_modules/vite-plugin-vue-inspector",
+            "isWorkspace": false,
+            "dependents": [
+              {
+                "type": "prod",
+                "name": "vite-plugin-vue-inspector",
+                "spec": "^5.3.2",
+                "from": {
+                  "name": "vite-plugin-vue-devtools",
+                  "version": "8.0.5",
+                  "location": "node_modules/vite-plugin-vue-devtools",
+                  "isWorkspace": false,
+                  "dependents": [
+                    {
+                      "type": "dev",
+                      "name": "vite-plugin-vue-devtools",
+                      "spec": "^7.0.0",
+                      "error": "INVALID",
+                      "from": {
+                        "location": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "peer": {
+      "name": "vite",
+      "version": "5.4.21",
+      "whileInstalling": {
+        "name": "frontend",
+        "version": "0.0.0",
+        "path": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+      },
+      "location": "node_modules/vite",
+      "isWorkspace": false,
+      "dependents": [
+        {
+          "type": "peer",
+          "name": "vite",
+          "spec": "^5.0.0 || ^6.0.0",
+          "from": {
+            "name": "@vitejs/plugin-vue",
+            "version": "5.2.4",
+            "whileInstalling": {
+              "name": "frontend",
+              "version": "0.0.0",
+              "path": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+            },
+            "location": "node_modules/@vitejs/plugin-vue",
+            "isWorkspace": false,
+            "dependents": [
+              {
+                "type": "dev",
+                "name": "@vitejs/plugin-vue",
+                "spec": "^5.0.0",
+                "error": "INVALID",
+                "from": {
+                  "location": "D:\\study\\computer\\HCI\\MilkyTea\\frontend"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "strictPeerDeps": false,
+  "force": false,
+  "isMine": true
+}

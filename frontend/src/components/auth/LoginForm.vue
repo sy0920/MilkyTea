@@ -24,6 +24,7 @@ async function submit() {
   
   loading.value = true
   try {
+    // 支持手机号登录，发送phone字段到后端
     const res = await apiLogin({ phone: form.phone.trim(), password: form.password })
     if (res && res.token) {
       setToken(res.token)
@@ -33,7 +34,9 @@ async function submit() {
     }
   } catch (e) {
     error.message = e.message || '登录失败'
-  } finally { loading.value = false }
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -44,10 +47,10 @@ async function submit() {
     <div class="form-group">
       <input 
         class="mt-input" 
-        v-model="form.phone" 
-        type="tel" 
-        placeholder="请输入手机号" 
-        maxlength="11" 
+        v-model="form.phone"
+        type="tel"
+        placeholder="请输入手机号"
+        maxlength="11"
       />
     </div>
 

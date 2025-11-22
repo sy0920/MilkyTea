@@ -1,0 +1,2 @@
+
+9f560e1f6cdc8b281bfdc70ae024911d3a3b55bb	{"key":"make-fetch-happen:request-cache:https://registry.npm.taobao.org/is-wsl","integrity":null,"time":1763807577037,"size":"262","metadata":{"time":1763807577037,"url":"https://registry.npm.taobao.org/is-wsl","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/html","date":"Sat, 22 Nov 2025 10:32:49 GMT","location":"https://registry.npmmirror.com/is-wsl"},"options":{"compress":true},"status":301}}

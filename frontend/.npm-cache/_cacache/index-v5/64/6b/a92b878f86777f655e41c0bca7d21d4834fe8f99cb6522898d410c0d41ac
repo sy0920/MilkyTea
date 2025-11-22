@@ -1,0 +1,2 @@
+
+ab1704e58ab64023b2c276b417507d856e08bdb9	{"key":"make-fetch-happen:request-cache:https://registry.npm.taobao.org/@esbuild%2flinux-riscv64","integrity":null,"time":1763807574218,"size":"262","metadata":{"time":1763807574218,"url":"https://registry.npm.taobao.org/@esbuild%2flinux-riscv64","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/html","date":"Sat, 22 Nov 2025 10:32:47 GMT","location":"https://registry.npmmirror.com/@esbuild%2flinux-riscv64"},"options":{"compress":true},"status":301}}

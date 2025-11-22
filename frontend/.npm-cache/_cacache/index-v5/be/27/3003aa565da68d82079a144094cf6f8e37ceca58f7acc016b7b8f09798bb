@@ -1,0 +1,2 @@
+
+fec758bc746e4b198c0a92f877e8e3e19e432ba1	{"key":"make-fetch-happen:request-cache:https://registry.npm.taobao.org/shebang-command","integrity":null,"time":1763807575820,"size":"262","metadata":{"time":1763807575820,"url":"https://registry.npm.taobao.org/shebang-command","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/html","date":"Sat, 22 Nov 2025 10:32:48 GMT","location":"https://registry.npmmirror.com/shebang-command"},"options":{"compress":true},"status":301}}

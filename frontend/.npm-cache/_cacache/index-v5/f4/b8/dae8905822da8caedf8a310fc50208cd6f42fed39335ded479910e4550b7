@@ -1,0 +1,2 @@
+
+a1940959035509084b4a4424ac027ab34f038a26	{"key":"make-fetch-happen:request-cache:https://registry.npm.taobao.org/unicorn-magic","integrity":null,"time":1763807575819,"size":"262","metadata":{"time":1763807575819,"url":"https://registry.npm.taobao.org/unicorn-magic","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/html","date":"Sat, 22 Nov 2025 10:32:48 GMT","location":"https://registry.npmmirror.com/unicorn-magic"},"options":{"compress":true},"status":301}}

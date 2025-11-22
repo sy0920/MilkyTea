@@ -1,0 +1,2 @@
+
+c21cced46a3337f3f30a8312fa340a60ec3b9992	{"key":"make-fetch-happen:request-cache:https://registry.npm.taobao.org/@polka%2furl","integrity":null,"time":1763807574800,"size":"262","metadata":{"time":1763807574800,"url":"https://registry.npm.taobao.org/@polka%2furl","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/html","date":"Sat, 22 Nov 2025 10:32:47 GMT","location":"https://registry.npmmirror.com/@polka%2furl"},"options":{"compress":true},"status":301}}

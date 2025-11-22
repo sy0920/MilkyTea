@@ -1,0 +1,2 @@
+
+9301439b5f8fb9d22cfc81e8115460d3c1ba8baf	{"key":"make-fetch-happen:request-cache:https://registry.npm.taobao.org/fs-extra","integrity":null,"time":1763807574805,"size":"262","metadata":{"time":1763807574805,"url":"https://registry.npm.taobao.org/fs-extra","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/html","date":"Sat, 22 Nov 2025 10:32:47 GMT","location":"https://registry.npmmirror.com/fs-extra"},"options":{"compress":true},"status":301}}

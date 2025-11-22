@@ -13,16 +13,20 @@ async function submit() {
   error.message = ''
   
   // 前端验证
-  if (!form.username || form.username.trim().length < 3) {
-    error.message = '用户名至少需要3个字符'
+  if (!form.username || form.username.trim().length < 3 || form.username.trim().length > 25) {
+    error.message = '用户名需要3-25个字符'
     return
   }
   if (!form.phone || form.phone.trim().length !== 11 || !/^1[3-9]\d{9}$/.test(form.phone.trim())) {
     error.message = '请输入11位有效的手机号'
     return
   }
-  if (!form.password || form.password.length < 6) {
-    error.message = '密码至少需要6个字符'
+  if (!form.password || form.password.length < 6 || form.password.length > 25) {
+    error.message = '密码需要6-25个字符'
+    return
+  }
+  if (!/[a-zA-Z]/.test(form.password) || !/[0-9]/.test(form.password)) {
+    error.message = '密码需包含字母和数字'
     return
   }
   

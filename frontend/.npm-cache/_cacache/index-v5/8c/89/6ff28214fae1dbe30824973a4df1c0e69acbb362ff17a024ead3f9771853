@@ -1,0 +1,2 @@
+
+31a8f1c0188ee29621e1e04e43adfd8fc1232052	{"key":"make-fetch-happen:request-cache:https://registry.npm.taobao.org/shebang-regex","integrity":null,"time":1763807576117,"size":"262","metadata":{"time":1763807576116,"url":"https://registry.npm.taobao.org/shebang-regex","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/html","date":"Sat, 22 Nov 2025 10:32:48 GMT","location":"https://registry.npmmirror.com/shebang-regex"},"options":{"compress":true},"status":301}}

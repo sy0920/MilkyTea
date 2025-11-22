@@ -1,0 +1,2 @@
+
+c279bc9c25a55b75e403b824f064d23926971e54	{"key":"make-fetch-happen:request-cache:https://registry.npm.taobao.org/hookable","integrity":null,"time":1763807574808,"size":"262","metadata":{"time":1763807574808,"url":"https://registry.npm.taobao.org/hookable","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/html","date":"Sat, 22 Nov 2025 10:32:47 GMT","location":"https://registry.npmmirror.com/hookable"},"options":{"compress":true},"status":301}}

@@ -4,6 +4,9 @@ import { setToken, setUser, removeToken, removeUser } from '../utils/auth'
 export async function register(payload) {
     const data = await request('/api/auth/register', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: payload
     })
     // expected to contain token + user info
@@ -17,6 +20,9 @@ export async function register(payload) {
 export async function login(payload) {
     const data = await request('/api/auth/login', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: payload
     })
     if (data && data.token) {

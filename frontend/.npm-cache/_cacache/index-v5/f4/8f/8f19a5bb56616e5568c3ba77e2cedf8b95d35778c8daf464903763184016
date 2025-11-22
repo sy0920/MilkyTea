@@ -1,0 +1,2 @@
+
+1ed565c797c920fc2e9b11c882d2a82cf06dff5a	{"key":"make-fetch-happen:request-cache:https://registry.npm.taobao.org/is-docker","integrity":null,"time":1763807577038,"size":"262","metadata":{"time":1763807577038,"url":"https://registry.npm.taobao.org/is-docker","reqHeaders":{"accept":"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"},"resHeaders":{"content-type":"text/html","date":"Sat, 22 Nov 2025 10:32:49 GMT","location":"https://registry.npmmirror.com/is-docker"},"options":{"compress":true},"status":301}}
