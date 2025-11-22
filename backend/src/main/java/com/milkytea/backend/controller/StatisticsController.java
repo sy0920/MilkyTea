@@ -45,6 +45,18 @@ public class StatisticsController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/trends")
+    @Operation(summary = "获取趋势分析", description = "返回指定时间段内每天/每周/每月的杯数与金额趋势")
+    public ResponseEntity<StatisticsDtos.TrendsResponse> getTrends(
+            Authentication authentication,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(required = false, defaultValue = "day") String groupBy) {
+        String username = authentication.getName();
+        StatisticsDtos.TrendsResponse response = statisticsService.getTrends(username, startDate, endDate, groupBy);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/calendar/{year}/{month}")
     @Operation(summary = "获取日历月度数据", description = "获取指定年月的日历消费数据")
     public ResponseEntity<StatisticsDtos.CalendarMonthResponse> getCalendarData(

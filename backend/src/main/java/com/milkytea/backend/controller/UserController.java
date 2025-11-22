@@ -39,6 +39,16 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @PatchMapping("/username")
+    @Operation(summary = "修改用户名", description = "修改当前登录用户的用户名")
+    public ResponseEntity<UserDtos.UserProfileResponse> updateUsername(
+            Authentication authentication,
+            @Valid @RequestBody UserDtos.UpdateUsernameRequest request) {
+        String username = authentication.getName();
+        UserDtos.UserProfileResponse response = userService.updateUsername(username, request);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/change-password")
     @Operation(summary = "修改密码", description = "修改当前登录用户的密码")
     public ResponseEntity<Void> changePassword(

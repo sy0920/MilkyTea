@@ -125,4 +125,46 @@ public class StatisticsDtos {
         @Schema(description = "本月消费天数")
         private Long consumeDays;
     }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "趋势数据点")
+    public static class TrendDataPoint {
+        @Schema(description = "日期")
+        private String date;
+
+        @Schema(description = "数值")
+        private BigDecimal value;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "趋势系列数据")
+    public static class TrendSeries {
+        @Schema(description = "杯数趋势")
+        private List<TrendDataPoint> cups;
+
+        @Schema(description = "金额趋势")
+        private List<TrendDataPoint> amount;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "趋势分析响应")
+    public static class TrendsResponse {
+        @Schema(description = "分组粒度")
+        private String groupBy;
+
+        @Schema(description = "趋势系列数据")
+        private TrendSeries series;
+
+        @Schema(description = "开始日期")
+        private String startDate;
+
+        @Schema(description = "结束日期")
+        private String endDate;
+    }
 }

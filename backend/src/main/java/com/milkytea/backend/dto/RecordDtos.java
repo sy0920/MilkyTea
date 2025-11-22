@@ -9,6 +9,7 @@ import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class RecordDtos {
 
@@ -124,5 +125,15 @@ public class RecordDtos {
 
         @Schema(description = "更新时间")
         private LocalDateTime updatedAt;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "批量删除请求")
+    public static class BatchDeleteRequest {
+        @NotNull(message = "ID列表不能为空")
+        @Schema(description = "要删除的记录ID列表", example = "[1, 2, 3]")
+        private List<Long> ids;
     }
 }

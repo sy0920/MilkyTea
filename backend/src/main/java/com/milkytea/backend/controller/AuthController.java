@@ -26,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    @Operation(summary = "用户登录", description = "使用用户名和密码登录")
+    @Operation(summary = "用户登录", description = "使用手机号和密码登录")
     public ResponseEntity<AuthDtos.AuthResponse> login(@Valid @RequestBody AuthDtos.LoginRequest request) {
         AuthDtos.AuthResponse response = authService.login(request);
         return ResponseEntity.ok(response);

@@ -1,5 +1,6 @@
 package com.milkytea.backend.entity;
 
+import com.milkytea.backend.validation.ValidPhone;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,13 +22,13 @@ public class User {
     private Long id;
 
     @NotBlank(message = "用户名不能为空")
-    @Size(min = 3, max = 50, message = "用户名长度必须在3-50之间")
-    @Column(unique = true, nullable = false)
+    @Size(min = 3, max = 25, message = "用户名长度必须在3-25之间")
+    @Column(unique = true, nullable = false, length = 25)
     private String username;
 
     @NotBlank(message = "手机号不能为空")
-    @Size(min = 11, max = 11, message = "手机号必须为11位")
-    @Column(unique = true, nullable = false)
+    @ValidPhone
+    @Column(unique = true, nullable = false, length = 11)
     private String phone;
 
     @NotBlank(message = "密码不能为空")

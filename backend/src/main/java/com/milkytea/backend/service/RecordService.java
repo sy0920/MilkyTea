@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,11 +48,60 @@ public class RecordService {
         return convertToResponse(record);
     }
 
-    public List<RecordDtos.RecordResponse> getUserRecords(String username) {
+    public List<RecordDtos.RecordResponse> getUserRecords(
+            String username, String date, String startDate, String endDate,
+            Long brandId, String category, Integer page, Integer size) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("用户不存在"));
 
-        return recordRepository.findByUserOrderByConsumeDateDesc(user).stream()
+        List<MilkTeaRecord> records = recordRepository.findByUserOrderByConsumeDateDesc(user);
+
+        // 应用筛选条件
+        if (date != null && !date.isEmpty()) {
+            LocalDate filterDate = LocalDate.parse(date);
+            records = records.stream()
+                    .filter(r -> r.getConsumeDate().equals(filterDate))
+                    .collect(Collectors.toList());
+        }
+
+        if (startDate != null && !startDate.isEmpty()) {
+            LocalDate start = LocalDate.parse(startDate);
+            records = records.stream()
+                    .filter(r -> !r.getConsumeDate().isBefore(start))
+                    .collect(Collectors.toList());
+        }
+
+        if (endDate != null && !endDate.isEmpty()) {
+            LocalDate end = LocalDate.parse(endDate);
+            records = records.stream()
+                    .filter(r -> !r.getConsumeDate().isAfter(end))
+                    .collect(Collectors.toList());
+        }
+
+        if (brandId != null) {
+            records = records.stream()
+                    .filter(r -> r.getBrand().getId().equals(brandId))
+                    .collect(Collectors.toList());
+        }
+
+        if (category != null && !category.isEmpty()) {
+            records = records.stream()
+                    .filter(r -> r.getCategory().contains(category))
+                    .collect(Collectors.toList());
+        }
+
+        // 应用分页
+        if (page != null && size != null && page >= 0 && size > 0) {
+            int start = page * size;
+            int end = Math.min(start + size, records.size());
+            if (start < records.size()) {
+                records = records.subList(start, end);
+            } else {
+                records = new ArrayList<>();
+            }
+        }
+
+        return records.stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }
@@ -128,6 +178,23 @@ public class RecordService {
         }
 
         recordRepository.delete(record);
+    }
+
+    @Transactional
+    public void batchDeleteRecords(String username, List<Long> ids) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("用户不存在"));
+
+        for (Long id : ids) {
+            MilkTeaRecord record = recordRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("记录不存在: " + id));
+
+            if (!record.getUser().getId().equals(user.getId())) {
+                throw new RuntimeException("无权删除记录: " + id);
+            }
+
+            recordRepository.delete(record);
+        }
     }
 
     private RecordDtos.RecordResponse convertToResponse(MilkTeaRecord record) {

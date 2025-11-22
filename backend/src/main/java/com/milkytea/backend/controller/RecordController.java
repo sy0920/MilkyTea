@@ -34,10 +34,19 @@ public class RecordController {
     }
 
     @GetMapping
-    @Operation(summary = "获取记录列表", description = "获取当前用户的所有奶茶消费记录")
-    public ResponseEntity<List<RecordDtos.RecordResponse>> getRecords(Authentication authentication) {
+    @Operation(summary = "获取记录列表", description = "获取当前用户的奶茶消费记录，支持按日期/品牌/品类筛选")
+    public ResponseEntity<List<RecordDtos.RecordResponse>> getRecords(
+            Authentication authentication,
+            @RequestParam(required = false) String date,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate,
+            @RequestParam(required = false) Long brandId,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size) {
         String username = authentication.getName();
-        List<RecordDtos.RecordResponse> response = recordService.getUserRecords(username);
+        List<RecordDtos.RecordResponse> response = recordService.getUserRecords(
+                username, date, startDate, endDate, brandId, category, page, size);
         return ResponseEntity.ok(response);
     }
 
@@ -69,6 +78,16 @@ public class RecordController {
             @PathVariable Long id) {
         String username = authentication.getName();
         recordService.deleteRecord(username, id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/batch-delete")
+    @Operation(summary = "批量删除记录", description = "批量删除当前用户的多条奶茶消费记录")
+    public ResponseEntity<Void> batchDeleteRecords(
+            Authentication authentication,
+            @Valid @RequestBody RecordDtos.BatchDeleteRequest request) {
+        String username = authentication.getName();
+        recordService.batchDeleteRecords(username, request.getIds());
         return ResponseEntity.noContent().build();
     }
 }

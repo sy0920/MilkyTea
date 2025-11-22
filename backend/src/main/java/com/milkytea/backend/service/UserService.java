@@ -58,6 +58,29 @@ public class UserService {
     }
 
     @Transactional
+    public UserDtos.UserProfileResponse updateUsername(String currentUsername, UserDtos.UpdateUsernameRequest request) {
+        User user = userRepository.findByUsername(currentUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+
+        // 检查新用户名是否已被使用
+        if (!request.getNewUsername().equals(currentUsername) &&
+                userRepository.existsByUsername(request.getNewUsername())) {
+            throw new RuntimeException("用户名已存在");
+        }
+
+        user.setUsername(request.getNewUsername());
+        user = userRepository.save(user);
+
+        return new UserDtos.UserProfileResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getPhone(),
+                user.getAvatar(),
+                user.getCreatedAt(),
+                user.getUpdatedAt());
+    }
+
+    @Transactional
     public void changePassword(String username, UserDtos.ChangePasswordRequest request) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("用户不存在"));

@@ -1,5 +1,7 @@
 package com.milkytea.backend.dto;
 
+import com.milkytea.backend.validation.ValidPassword;
+import com.milkytea.backend.validation.ValidPhone;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,17 +18,18 @@ public class AuthDtos {
     @Schema(description = "注册请求")
     public static class RegisterRequest {
         @NotBlank(message = "用户名不能为空")
-        @Size(min = 3, max = 50, message = "用户名长度必须在3-50之间")
+        @Size(min = 3, max = 25, message = "用户名长度必须在3-25之间")
         @Schema(description = "用户名", example = "zhangsan")
         private String username;
 
         @NotBlank(message = "手机号不能为空")
-        @Size(min = 11, max = 11, message = "手机号必须为11位")
+        @ValidPhone
         @Schema(description = "手机号", example = "13800138000")
         private String phone;
 
         @NotBlank(message = "密码不能为空")
-        @Size(min = 6, max = 100, message = "密码长度必须在6-100之间")
+        @Size(min = 6, max = 25, message = "密码长度必须在6-25之间")
+        @ValidPassword
         @Schema(description = "密码", example = "password123")
         private String password;
     }
@@ -37,7 +40,7 @@ public class AuthDtos {
     @Schema(description = "登录请求")
     public static class LoginRequest {
         @NotBlank(message = "手机号不能为空")
-        @Size(min = 11, max = 11, message = "手机号必须为11位")
+        @ValidPhone
         @Schema(description = "手机号", example = "13800138000")
         private String phone;
 
