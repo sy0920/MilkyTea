@@ -76,7 +76,8 @@ const navigationItems = [
       <div class="sidebar-footer">
         <button @click="handleShowProfile" class="user-profile">
           <div class="user-avatar">
-            {{ userInitial }}
+            <img v-if="user?.avatar" :src="user.avatar" alt="Avatar" class="avatar-img" />
+            <span v-else>{{ userInitial }}</span>
           </div>
           <div class="user-info">
             <p class="user-name">{{ user?.username || '用户' }}</p>
@@ -95,7 +96,8 @@ const navigationItems = [
         <span class="mobile-logo-text">Bobalog</span>
       </div>
       <button @click="handleShowProfile" class="mobile-profile-btn">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <img v-if="user?.avatar" :src="user.avatar" alt="Avatar" class="mobile-avatar-img" />
+        <svg v-else class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
           <circle cx="12" cy="7" r="4"></circle>
         </svg>
@@ -269,6 +271,14 @@ const navigationItems = [
   font-weight: 700;
   font-size: 0.75rem;
   flex-shrink: 0;
+  overflow: hidden; /* Ensure image doesn't overflow if border-radius issues occur */
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .user-info {
@@ -336,6 +346,13 @@ const navigationItems = [
 
 .mobile-profile-btn:hover {
   background: rgba(212, 165, 116, 0.2);
+}
+
+.mobile-avatar-img {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 /* 主内容区 */

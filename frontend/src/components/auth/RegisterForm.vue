@@ -93,7 +93,7 @@ function goBack() {
         class="mt-input" 
         v-model="form.password" 
         type="password" 
-        placeholder="请输入密码（至少6个字符）" 
+        placeholder="请输入密码（6-25字符，需包含字母和数字）" 
         required 
       />
     </div>

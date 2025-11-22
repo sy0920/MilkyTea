@@ -35,6 +35,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String avatar;
 
     @Column(name = "created_at", updatable = false)

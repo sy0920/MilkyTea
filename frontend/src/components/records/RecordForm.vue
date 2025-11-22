@@ -1,7 +1,6 @@
 <script setup>
 import { reactive, watch, computed } from 'vue'
 import { DEFAULT_BRANDS, SUGAR_LEVELS, ICE_LEVELS, formatDate } from '../../utils/constants'
-import { uploadImage as apiUploadImage } from '../../api/upload'
 
 const props = defineProps({
   initialData: Object,
@@ -112,31 +111,6 @@ const handleImageChange = (event) => {
   }
 }
 
-const uploadImage = async (file) => {
-  try {
-    console.log('📤 上传图片到外部图片托管服务...')
-    const url = await apiUploadImage(file, 'brands')
-
-    if (url) {
-      console.log(`✅ 图片上传成功:`, url)
-      return url // 直接返回URL字符串
-    } else {
-      throw new Error('上传结果无效')
-    }
-  } catch (error) {
-    console.warn('⚠️ 外部服务上传失败，生成模拟URL:', error.message)
-
-    // 备选方案：生成符合格式的模拟URL
-    const timestamp = Date.now()
-    const randomId = Math.random().toString(36).substr(2, 9)
-    const extension = file.name.split('.').pop() || 'jpg'
-    const mockUrl = `https://cdn.milktea-app.com/brands/${timestamp}-${randomId}.${extension}`
-
-    console.log('🔗 生成模拟URL:', mockUrl)
-    return mockUrl
-  }
-}
-
 const handleConfirmAddBrand = async () => {
   if (customBrand.value.trim()) {
     customBrand.uploading = true
@@ -144,10 +118,10 @@ const handleConfirmAddBrand = async () => {
     try {
       let logoUrl = null
 
-      // 如果用户选择了图片，上传到外部服务获取URL
-      if (customBrand.imageFile) {
-        logoUrl = await uploadImage(customBrand.imageFile)
-        console.log(`📤 品牌图标URL获取完成: ${logoUrl}`)
+      // 如果用户选择了图片，直接使用Base64数据
+      if (customBrand.imagePreview) {
+        logoUrl = customBrand.imagePreview
+        console.log(`📤 品牌图标使用Base64数据`)
       }
 
       const brandData = {

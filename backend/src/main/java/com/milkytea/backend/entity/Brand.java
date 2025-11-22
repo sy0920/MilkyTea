@@ -26,7 +26,8 @@ public class Brand {
     @Column(length = 500)
     private String description;
 
-    @Column(name = "logo_url")
+    @Lob
+    @Column(name = "logo_url", columnDefinition = "TEXT")
     private String logoUrl;
 
     @Column(name = "created_at", updatable = false)
