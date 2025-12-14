@@ -1,0 +1,83 @@
+﻿<view class="statistics-page">
+  <view class="page-header">
+    <text class="page-title">统计分析</text>
+  </view>
+  <view wx:if="{{loading}}" class="loading-wrapper">
+    <text>加载中...</text>
+  </view>
+  <view wx:else class="content">
+    <!-- 概览统计 -->
+    <view class="summary-card">
+      <view class="summary-title">总体统计</view>
+      <view class="summary-grid">
+        <view class="summary-item">
+          <text class="summary-value price-color">¥{{summary.totalAmount || 0}}</text>
+          <text class="summary-label">累计消费</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-value">{{summary.totalCups || 0}}杯</text>
+          <text class="summary-label">总杯数</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-value">¥{{summary.avgPrice || 0}}</text>
+          <text class="summary-label">平均单价</text>
+        </view>
+      </view>
+    </view>
+    <!-- 评分（Top5） -->
+    <view class="stats-card">
+      <view class="stats-title">评分（Top5）</view>
+      <view wx:if="{{topRated.length > 0}}" class="rating-list">
+        <view wx:for="{{topRated}}" wx:key="id" class="rating-item top-rated">
+          <view class="rating-info">
+            <text class="rating-brand">{{item.brandName || item.brand}}</text>
+            <text class="rating-category">{{item.drinkName || item.category || '-'}}</text>
+          </view>
+          <text class="rating-score">{{item.rating}}分</text>
+        </view>
+      </view>
+      <view wx:else class="empty-wrapper">
+        <text class="empty-text">暂无评分数据</text>
+      </view>
+    </view>
+    <!-- 购买次数（Top5） -->
+    <view class="stats-card">
+      <view class="stats-title">购买次数（Top5）</view>
+      <view wx:if="{{topFreq.length > 0}}" class="brand-list">
+        <view wx:for="{{topFreq}}" wx:key="name" class="brand-item">
+          <view class="brand-info">
+            <text class="brand-name-text">{{item.name}}</text>
+          </view>
+          <view class="brand-stats">
+            <text class="stat-text">{{item.count}}次</text>
+          </view>
+        </view>
+      </view>
+      <view wx:else class="empty-wrapper">
+        <text class="empty-text">暂无购买次数数据</text>
+      </view>
+    </view>
+    <!-- 近期记录 -->
+    <view class="stats-card">
+      <view class="stats-title">近期记录</view>
+      <view wx:if="{{recentRecords.length > 0}}" class="recent-list">
+        <view wx:for="{{recentRecords}}" wx:key="id" class="recent-item">
+          <view class="recent-info">
+            <text class="recent-brand">{{item.brandName || item.brand}}</text>
+            <text class="recent-category">{{item.drinkName || item.category || '-'}}</text>
+            <text class="recent-date">{{item.consumeDate}}</text>
+          </view>
+          <text class="recent-price">¥{{item.price}}</text>
+        </view>
+      </view>
+      <view wx:else class="empty-wrapper">
+        <text class="empty-text">暂无近期记录</text>
+      </view>
+    </view>
+    <!-- 空状态（无记录） -->
+    <view wx:if="{{summary.totalCups === 0}}" class="empty-wrapper">
+      <text class="empty-text">暂无统计数据</text>
+      <text class="empty-hint">开始记录你的奶茶消费吧！</text>
+    </view>
+  </view>
+</view>

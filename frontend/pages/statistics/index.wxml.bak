@@ -1,0 +1,105 @@
+<view class="statistics-page">
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <text class="page-title">统计分析</text>
+  </view>
+
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-wrapper">
+    <text>加载中...</text>
+  </view>
+
+  <view wx:else class="content">
+    <!-- 统计摘要卡片 -->
+    <view wx:if="{{summary}}" class="summary-card">
+      <view class="summary-title">总体统计</view>
+      <view class="summary-grid">
+        <view class="summary-item">
+          <text class="summary-value">{{summary.totalCups || 0}}</text>
+          <text class="summary-label">总杯数</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-value price-color">¥{{summary.totalAmount || 0}}</text>
+          <text class="summary-label">总金额</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-value">¥{{summary.avgPrice || 0}}</text>
+          <text class="summary-label">平均价格</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-value">{{summary.favoriteBrand || '-'}}</text>
+          <text class="summary-label">最爱品牌</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 日历视图 -->
+    <view class="calendar-card">
+      <view class="calendar-header">
+        <text class="calendar-title">消费日历</text>
+        <view class="month-selector">
+          <text class="month-btn" bindtap="prevMonth">‹</text>
+          <text class="month-text">{{currentYear}}年 {{monthNames[currentMonth]}}</text>
+          <text class="month-btn" bindtap="nextMonth">›</text>
+        </view>
+      </view>
+
+      <view class="calendar-weekdays">
+        <text class="weekday">日</text>
+        <text class="weekday">一</text>
+        <text class="weekday">二</text>
+        <text class="weekday">三</text>
+        <text class="weekday">四</text>
+        <text class="weekday">五</text>
+        <text class="weekday">六</text>
+      </view>
+
+      <view class="calendar-days">
+        <view wx:for="{{calendarDays}}" wx:key="index" class="calendar-day {{item && item.hasConsumption ? 'has-record' : ''}}" bindtap="viewDayDetail" data-date="{{item ? item.date : ''}}">
+          <text wx:if="{{item}}" class="day-number">{{item.day}}</text>
+          <view wx:if="{{item && item.hasConsumption}}" class="day-indicator">
+            <text class="day-count">{{item.count}}杯</text>
+            <text class="day-amount">¥{{item.amount}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 品牌统计 -->
+    <view wx:if="{{brandStats.length > 0}}" class="stats-card">
+      <view class="stats-title">品牌统计</view>
+      <view class="brand-list">
+        <view wx:for="{{brandStats}}" wx:key="brandId" class="brand-item">
+          <view class="brand-info">
+            <image wx:if="{{item.logoUrl}}" class="brand-logo-small" src="{{item.logoUrl}}" mode="aspectFit" />
+            <text class="brand-name-text">{{item.brandName}}</text>
+          </view>
+          <view class="brand-stats">
+            <text class="stat-text">{{item.count}}杯</text>
+            <text class="stat-text price-color">¥{{item.totalAmount}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 趋势统计 -->
+    <view wx:if="{{trends.length > 0}}" class="stats-card">
+      <view class="stats-title">消费趋势（最近7天）</view>
+      <view class="trend-list">
+        <view wx:for="{{trends}}" wx:key="date" class="trend-item">
+          <text class="trend-date">{{item.date}}</text>
+          <view class="trend-bar-wrapper">
+            <view class="trend-bar" style="width: {{item.amount / (trends[0].amount || 1) * 100}}%"></view>
+          </view>
+          <text class="trend-value">{{item.cups}}杯 ¥{{item.amount}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view wx:if="{{!summary || summary.totalCups === 0}}" class="empty-wrapper">
+      <text class="empty-text">暂无统计数据</text>
+      <text class="empty-hint">开始记录你的奶茶消费吧！</text>
+    </view>
+  </view>
+</view>

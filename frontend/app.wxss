@@ -1,0 +1,84 @@
+/** app.wxss */
+page {
+  /* 主色调 - 奶茶色系 */
+  --primary-color: #d4a574;
+  --primary-light: #e8d0b0;
+  --primary-dark: #b8864c;
+
+  /* 辅助色 */
+  --secondary-color: #f8f4e9;
+  --accent-color: #e76f51;
+  --success-color: #2a9d8f;
+  --warning-color: #e9c46a;
+  --error-color: #e76f51;
+
+  /* 中性色 */
+  --text-primary: #2d2d2d;
+  --text-secondary: #5a5a5a;
+  --text-light: #8a8a8a;
+  --border-color: #e0e0e0;
+  --background-color: #fefefe;
+  --card-background: #ffffff;
+
+  /* 间距 */
+  --spacing-xs: 8rpx;
+  --spacing-sm: 16rpx;
+  --spacing-md: 32rpx;
+  --spacing-lg: 48rpx;
+  --spacing-xl: 64rpx;
+  --spacing-xxl: 96rpx;
+
+  /* 圆角 */
+  --border-radius-sm: 8rpx;
+  --border-radius-md: 16rpx;
+  --border-radius-lg: 24rpx;
+  --border-radius-xl: 32rpx;
+
+  /* 阴影 */
+  --shadow-sm: 0 2rpx 6rpx rgba(0, 0, 0, 0.12), 0 2rpx 4rpx rgba(0, 0, 0, 0.24);
+  --shadow-md: 0 6rpx 12rpx rgba(0, 0, 0, 0.15), 0 4rpx 8rpx rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 20rpx 40rpx rgba(0, 0, 0, 0.15), 0 6rpx 12rpx rgba(0, 0, 0, 0.10);
+
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--background-color);
+}
+
+.container {
+  padding: 0 var(--spacing-md);
+}
+
+.card {
+  background: var(--card-background);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: 28rpx;
+  font-weight: 500;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.text-center { text-align: center; }
+.mt-16 { margin-top: 32rpx; }
+.p-24 { padding: 48rpx; }
+.color-primary { color: var(--primary-color); }
+.color-muted { color: var(--text-light); }
+

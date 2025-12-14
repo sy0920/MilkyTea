@@ -1,0 +1,251 @@
+<view class="index-page">
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <text class="page-title">MilkyTea</text>
+    <view class="user-info" wx:if="{{user}}" bindtap="showProfileModal">
+      <image class="user-avatar-small" src="{{user.avatar || '/public/default-avatar.svg'}}" mode="aspectFit" />
+    </view>
+  </view>
+
+  <!-- 个人中心悬浮窗 -->
+  <view wx:if="{{showProfileModal}}" class="modal-overlay" bindtap="closeProfileModal">
+    <view class="modal-content profile-modal" catchtap>
+      <view class="modal-header">
+        <text class="modal-title">个人中心</text>
+        <text class="modal-close" bindtap="closeProfileModal">×</text>
+      </view>
+      <view class="modal-body">
+        <!-- 嵌入原来的个人中心内容 -->
+        <view class="user-card-mini">
+          <image class="user-avatar-large" src="{{user.avatar || '/public/default-avatar.svg'}}" mode="aspectFit" />
+          <text class="user-name">{{user.username}}</text>
+          <text class="user-phone">{{user.phone || '未绑定手机号'}}</text>
+        </view>
+
+        <view class="menu-list">
+          <view class="menu-item" bindtap="navigateToProfileEdit">
+            <text class="menu-label">个人设置</text>
+            <text class="menu-arrow">›</text>
+          </view>
+          <view class="menu-item" bindtap="handleLogout">
+            <text class="menu-label logout-text">退出登录</text>
+            <text class="menu-arrow">›</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 日历视图 -->
+  <view class="calendar-card">
+    <view class="calendar-header">
+      <text class="calendar-title">消费日历</text>
+      <view class="month-selector">
+        <text class="month-btn" bindtap="prevMonth">‹</text>
+        <text class="month-text">{{currentYear}}年 {{monthNames[currentMonth]}}</text>
+        <text class="month-btn" bindtap="nextMonth">›</text>
+      </view>
+    </view>
+
+    <view class="calendar-weekdays">
+      <text class="weekday">日</text>
+      <text class="weekday">一</text>
+      <text class="weekday">二</text>
+      <text class="weekday">三</text>
+      <text class="weekday">四</text>
+      <text class="weekday">五</text>
+      <text class="weekday">六</text>
+    </view>
+
+    <view class="calendar-days">
+      <view wx:for="{{calendarDays}}" wx:key="index" class="calendar-day {{item && item.hasConsumption ? 'has-record' : ''}}" bindtap="viewDayDetail" data-date="{{item ? item.date : ''}}">
+        <text wx:if="{{item}}" class="day-number">{{item.day}}</text>
+        <view wx:if="{{item && item.hasConsumption}}" class="day-indicator">
+          <view class="brand-icons">
+            <image wx:for="{{item.brandGroups}}" wx:for-item="brand" wx:key="id" class="mini-brand-logo" src="{{brand.logo}}" mode="aspectFit" />
+          </view>
+          <text class="day-amount">¥{{item.amount}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加按钮 -->
+  <view class="add-button-wrapper">
+    <button class="add-button" bindtap="showAddRecord" type="primary">+ 记一杯</button>
+  </view>
+
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-wrapper">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 记录列表 (仅在点击日期后显示，或者完全移除，根据需求这里先移除默认显示的列表，改为弹窗显示) -->
+  <!-- 用户要求：在消费日历中点击对应某天，弹窗显示当天喝的奶茶 -->
+  <!-- 所以这里不再直接显示列表，列表逻辑移到 viewDayDetail 中 -->
+
+  <!-- 当日记录详情模态框 -->
+  <view wx:if="{{showDayDetailModal}}" class="modal-overlay" bindtap="closeDayDetailModal">
+    <view class="modal-content" catchtap>
+      <view class="modal-header">
+        <text class="modal-title">{{selectedDate}} 的记录</text>
+        <text class="modal-close" bindtap="closeDayDetailModal">×</text>
+      </view>
+      <view class="modal-body">
+        <view wx:for="{{dayRecords}}" wx:key="id" class="record-card-mini">
+          <view class="record-header">
+            <view class="brand-info">
+              <image wx:if="{{item.brandLogo}}" class="brand-logo-small" src="{{item.brandLogo}}" mode="aspectFit" />
+              <text class="brand-name">{{item.brandName}}</text>
+            </view>
+            <text class="record-price">¥{{item.price}}</text>
+          </view>
+          <view class="record-detail-text">
+            {{item.category}} | {{item.sweetness}} | {{item.iceLevel}}
+          </view>
+          <view class="record-actions-mini">
+            <button class="action-btn edit-btn" size="mini" bindtap="editRecord" data-id="{{item.id}}">编辑</button>
+            <button class="action-btn delete-btn" size="mini" bindtap="deleteRecord" data-id="{{item.id}}">删除</button>
+          </view>
+        </view>
+        <button class="add-more-btn" bindtap="showAddRecord" data-date="{{selectedDate}}">+ 再记一杯</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加记录模态框 -->
+  <view wx:if="{{showAddModal}}" class="modal-overlay" bindtap="closeAddModal">
+    <view class="modal-content" catchtap>
+      <view class="modal-header">
+        <text class="modal-title">添加记录</text>
+        <text class="modal-close" bindtap="closeAddModal">×</text>
+      </view>
+
+      <view class="modal-body">
+        <view class="form-item">
+          <text class="form-label">品牌</text>
+          <view class="brand-selector">
+            <picker class="form-picker brand-picker" mode="selector" range="{{brands}}" range-key="name" bindchange="onBrandChange">
+              <view class="picker-content">
+                <image wx:if="{{selectedBrandLogo}}" class="picker-logo" src="{{selectedBrandLogo}}" mode="aspectFit" />
+                <text class="picker-value">{{selectedBrandName}}</text>
+              </view>
+            </picker>
+            <button class="add-brand-btn" size="mini" bindtap="addCustomBrand">+</button>
+          </view>
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">品类</text>
+          <input class="form-input" placeholder="请输入品类名称" value="{{formData.category}}" bindinput="onFormInput" data-field="category" />
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">甜度</text>
+          <picker class="form-picker" mode="selector" range="{{['无糖', '三分糖', '半糖', '七分糖', '全糖']}}" bindchange="onSweetnessChange" value="{{['无糖', '三分糖', '半糖', '七分糖', '全糖'].indexOf(formData.sweetness)}}">
+            <view class="picker-value">{{formData.sweetness}}</view>
+          </picker>
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">冰度</text>
+          <picker class="form-picker" mode="selector" range="{{['去冰', '少冰', '正常冰', '多冰']}}" bindchange="onIceChange" value="{{['去冰', '少冰', '正常冰', '多冰'].indexOf(formData.iceLevel)}}">
+            <view class="picker-value">{{formData.iceLevel}}</view>
+          </picker>
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">价格</text>
+          <input class="form-input" type="digit" placeholder="请输入价格" value="{{formData.price}}" bindinput="onFormInput" data-field="price" />
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">评分</text>
+          <slider class="form-slider" min="1" max="5" step="1" value="{{formData.rating}}" bindchange="onRatingChange" show-value />
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">日期</text>
+          <picker class="form-picker" mode="date" value="{{formData.consumeDate}}" bindchange="onDateChange">
+            <view class="picker-value">{{formData.consumeDate}}</view>
+          </picker>
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">评论</text>
+          <textarea class="form-textarea" placeholder="请输入评论（可选）" value="{{formData.comment}}" bindinput="onFormInput" data-field="comment" maxlength="200" />
+        </view>
+      </view>
+
+      <view class="modal-footer">
+        <button class="modal-btn cancel-btn" bindtap="closeAddModal">取消</button>
+        <button class="modal-btn confirm-btn" bindtap="submitAdd" type="primary">添加</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 编辑记录模态框 -->
+  <view wx:if="{{showEditModal}}" class="modal-overlay" bindtap="closeEditModal">
+    <view class="modal-content" catchtap>
+      <view class="modal-header">
+        <text class="modal-title">编辑记录</text>
+        <text class="modal-close" bindtap="closeEditModal">×</text>
+      </view>
+
+      <view class="modal-body">
+        <view class="form-item">
+          <text class="form-label">品牌</text>
+          <picker class="form-picker" mode="selector" range="{{brands}}" range-key="name" bindchange="onBrandChange">
+            <view class="picker-value">{{selectedBrandName}}</view>
+          </picker>
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">品类</text>
+          <input class="form-input" placeholder="请输入品类名称" value="{{formData.category}}" bindinput="onFormInput" data-field="category" />
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">甜度</text>
+          <picker class="form-picker" mode="selector" range="{{['无糖', '三分糖', '半糖', '七分糖', '全糖']}}" bindchange="onSweetnessChange" value="{{['无糖', '三分糖', '半糖', '七分糖', '全糖'].indexOf(formData.sweetness)}}">
+            <view class="picker-value">{{formData.sweetness}}</view>
+          </picker>
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">冰度</text>
+          <picker class="form-picker" mode="selector" range="{{['去冰', '少冰', '正常冰', '多冰']}}" bindchange="onIceChange" value="{{['去冰', '少冰', '正常冰', '多冰'].indexOf(formData.iceLevel)}}">
+            <view class="picker-value">{{formData.iceLevel}}</view>
+          </picker>
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">价格</text>
+          <input class="form-input" type="digit" placeholder="请输入价格" value="{{formData.price}}" bindinput="onFormInput" data-field="price" />
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">评分</text>
+          <slider class="form-slider" min="1" max="5" step="1" value="{{formData.rating}}" bindchange="onRatingChange" show-value />
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">日期</text>
+          <picker class="form-picker" mode="date" value="{{formData.consumeDate}}" bindchange="onDateChange">
+            <view class="picker-value">{{formData.consumeDate}}</view>
+          </picker>
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">评论</text>
+          <textarea class="form-textarea" placeholder="请输入评论（可选）" value="{{formData.comment}}" bindinput="onFormInput" data-field="comment" maxlength="200" />
+        </view>
+      </view>
+
+      <view class="modal-footer">
+        <button class="modal-btn cancel-btn" bindtap="closeEditModal">取消</button>
+        <button class="modal-btn confirm-btn" bindtap="submitEdit" type="primary">保存</button>
+      </view>
+    </view>
+  </view>
+</view>

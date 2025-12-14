@@ -1,0 +1,122 @@
+<view class="profile-page">
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <text class="page-title">个人中心</text>
+  </view>
+
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-wrapper">
+    <text>加载中...</text>
+  </view>
+
+  <view wx:else class="content">
+    <!-- 用户信息卡片 -->
+    <view wx:if="{{user}}" class="user-card">
+      <view class="user-avatar-wrapper">
+        <image class="user-avatar" src="{{user.avatar || '/public/default-avatar.svg'}}" mode="aspectFit" />
+      </view>
+      <view class="user-info">
+        <text class="user-name">{{user.username}}</text>
+        <text class="user-phone">{{user.phone || '未绑定手机号'}}</text>
+      </view>
+      <view class="edit-btn-wrapper">
+        <button class="edit-btn" size="mini" bindtap="showEdit">设置</button>
+      </view>
+    </view>
+
+    <!-- 统计概览 -->
+    <view wx:if="{{summary}}" class="stats-overview">
+      <view class="stats-title">我的统计</view>
+      <view class="stats-grid">
+        <view class="stat-item">
+          <text class="stat-value">{{summary.totalCups || 0}}</text>
+          <text class="stat-label">总杯数</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value price">¥{{summary.totalAmount || 0}}</text>
+          <text class="stat-label">总消费</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">¥{{summary.avgPrice || 0}}</text>
+          <text class="stat-label">平均价格</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 功能列表 -->
+    <view class="menu-list">
+      <view class="menu-item" bindtap="showAbout">
+        <text class="menu-label">关于应用</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="handleLogout">
+        <text class="menu-label logout-text">退出登录</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 编辑模态框 -->
+  <view wx:if="{{showEditModal}}" class="modal-overlay" bindtap="closeEditModal">
+    <view class="modal-content" catchtap>
+      <view class="modal-header">
+        <text class="modal-title">个人设置</text>
+        <text class="modal-close" bindtap="closeEditModal">×</text>
+      </view>
+
+      <view class="modal-tabs">
+        <view class="tab-item {{activeTab === 'profile' ? 'active' : ''}}" bindtap="switchTab" data-tab="profile">基本信息</view>
+        <view class="tab-item {{activeTab === 'password' ? 'active' : ''}}" bindtap="switchTab" data-tab="password">修改密码</view>
+      </view>
+
+      <view class="modal-body">
+        <!-- 基本信息表单 -->
+        <block wx:if="{{activeTab === 'profile'}}">
+          <view class="form-item">
+            <text class="form-label">头像</text>
+            <view class="avatar-selector">
+              <view
+                wx:for="{{avatars}}"
+                wx:key="*this"
+                class="avatar-option {{editForm.avatar === item ? 'selected' : ''}}"
+                bindtap="selectAvatar"
+                data-src="{{item}}"
+              >
+                <image src="{{item}}" mode="aspectFit" />
+              </view>
+            </view>
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">用户名</text>
+            <input class="form-input" placeholder="请输入用户名" value="{{editForm.username}}" bindinput="onEditInput" data-field="username" />
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">手机号</text>
+            <input class="form-input" type="number" placeholder="请输入手机号" value="{{editForm.phone}}" bindinput="onEditInput" data-field="phone" />
+          </view>
+        </block>
+
+        <!-- 修改密码表单 -->
+        <block wx:if="{{activeTab === 'password'}}">
+          <view class="form-item">
+            <text class="form-label">原密码</text>
+            <input class="form-input" password placeholder="请输入原密码" value="{{passwordForm.oldPassword}}" bindinput="onPasswordInput" data-field="oldPassword" />
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">新密码</text>
+            <input class="form-input" password placeholder="请输入新密码（至少6位）" value="{{passwordForm.newPassword}}" bindinput="onPasswordInput" data-field="newPassword" />
+          </view>
+        </block>
+      </view>
+
+      <view class="modal-footer">
+        <button class="modal-btn cancel-btn" bindtap="closeEditModal">取消</button>
+        <button wx:if="{{activeTab === 'profile'}}" class="modal-btn confirm-btn" bindtap="submitProfile" type="primary">保存</button>
+        <button wx:if="{{activeTab === 'password'}}" class="modal-btn confirm-btn" bindtap="submitPassword" type="primary">修改</button>
+      </view>
+    </view>
+  </view>
+</view>
