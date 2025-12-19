@@ -27,6 +27,7 @@
             <input
               class="input"
               placeholder="请输入手机号"
+              placeholder-style="color:#999;font-weight:normal;"
               type="number"
               value="{{phone}}"
               bindinput="onPhoneInput"
@@ -38,6 +39,7 @@
             <input
               class="input"
               placeholder="请输入密码"
+              placeholder-style="color:#999;font-weight:normal;"
               password
               value="{{password}}"
               bindinput="onPasswordInput"
@@ -53,6 +55,7 @@
             <input
               class="input"
               placeholder="请输入用户名（3-25位）"
+              placeholder-style="color:#999;font-weight:normal;"
               value="{{username}}"
               bindinput="onUsernameInput"
               maxlength="25"
@@ -63,6 +66,7 @@
             <input
               class="input"
               placeholder="请输入手机号"
+              placeholder-style="color:#999;font-weight:normal;"
               type="number"
               value="{{phone}}"
               bindinput="onPhoneInput"
@@ -74,6 +78,7 @@
             <input
               class="input"
               placeholder="请输入密码（6-25位，含字母数字）"
+              placeholder-style="color:#999;font-weight:normal;"
               password
               value="{{password}}"
               bindinput="onPasswordInput"

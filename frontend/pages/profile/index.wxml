@@ -89,12 +89,12 @@
 
           <view class="form-item">
             <text class="form-label">用户名</text>
-            <input class="form-input" placeholder="请输入用户名" value="{{editForm.username}}" bindinput="onEditInput" data-field="username" />
+            <input class="form-input" placeholder="请输入用户名" placeholder-style="color:#999;font-weight:normal;" value="{{editForm.username}}" bindinput="onEditInput" data-field="username" />
           </view>
 
           <view class="form-item">
             <text class="form-label">手机号</text>
-            <input class="form-input" type="number" placeholder="请输入手机号" value="{{editForm.phone}}" bindinput="onEditInput" data-field="phone" />
+            <input class="form-input" type="number" placeholder="请输入手机号" placeholder-style="color:#999;font-weight:normal;" value="{{editForm.phone}}" bindinput="onEditInput" data-field="phone" />
           </view>
         </block>
 
@@ -102,12 +102,12 @@
         <block wx:if="{{activeTab === 'password'}}">
           <view class="form-item">
             <text class="form-label">原密码</text>
-            <input class="form-input" password placeholder="请输入原密码" value="{{passwordForm.oldPassword}}" bindinput="onPasswordInput" data-field="oldPassword" />
+            <input class="form-input" password placeholder="请输入原密码" placeholder-style="color:#999;font-weight:normal;" value="{{passwordForm.oldPassword}}" bindinput="onPasswordInput" data-field="oldPassword" />
           </view>
 
           <view class="form-item">
             <text class="form-label">新密码</text>
-            <input class="form-input" password placeholder="请输入新密码（至少6位）" value="{{passwordForm.newPassword}}" bindinput="onPasswordInput" data-field="newPassword" />
+            <input class="form-input" password placeholder="请输入新密码（至少6位）" placeholder-style="color:#999;font-weight:normal;" value="{{passwordForm.newPassword}}" bindinput="onPasswordInput" data-field="newPassword" />
           </view>
         </block>
       </view>

@@ -139,7 +139,7 @@
 .brand-name-text {
   font-size: 28rpx;
   color: var(--text-primary);
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .brand-stats {
@@ -152,6 +152,7 @@
 .stat-text {
   font-size: 24rpx;
   color: var(--text-secondary);
+  font-weight: bold;
 }
 
 /* 红黑榜列表 */
@@ -170,8 +171,8 @@
 }
 
 .rating-item.top-rated {
-  background: rgba(42, 157, 143, 0.1); /* success-color with opacity */
-  border-left: 6rpx solid var(--success-color);
+  background: rgba(139, 69, 19, 0.1); /* 浅棕色背景 */
+  border-left: 6rpx solid #8B4513; /* 深棕色边框 */
 }
 
 .rating-item.low-rated {
@@ -198,7 +199,7 @@
 .rating-score {
   font-size: 32rpx;
   font-weight: bold;
-  color: var(--primary-dark);
+  color: #8B4513;
 }
 
 /* 近期记录列表 */

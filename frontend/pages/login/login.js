@@ -118,15 +118,21 @@ Page({
 
     } catch (e) {
       console.error('认证失败:', e);
-      let errorMsg = e.message || (isLogin ? '登录失败' : '注册失败');
+      
+      // 优先使用后端返回的具体错误信息
+      let errorMsg = e.message;
 
-      // 根据错误码提供更友好的提示
-      if (e.code === 400) {
-        errorMsg = '输入信息格式不正确';
-      } else if (e.code === 409) {
-        errorMsg = '用户名或手机号已存在';
-      } else if (e.code === 401) {
-        errorMsg = '手机号或密码错误';
+      // 只有当后端没有返回具体信息（或者是默认信息）时，才根据状态码提供默认提示
+      if (!errorMsg || errorMsg === 'Request failed') {
+        if (e.code === 400) {
+          errorMsg = '输入信息格式不正确';
+        } else if (e.code === 409) {
+          errorMsg = '该手机号或用户名已注册';
+        } else if (e.code === 401) {
+          errorMsg = '手机号或密码错误';
+        } else {
+          errorMsg = isLogin ? '登录失败' : '注册失败';
+        }
       }
 
       wx.showToast({

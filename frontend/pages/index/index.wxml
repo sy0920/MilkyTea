@@ -39,7 +39,10 @@
   <!-- 日历视图 -->
   <view class="calendar-card">
     <view class="calendar-header">
-      <text class="calendar-title">消费日历</text>
+      <view class="calendar-title-group">
+        <text class="calendar-title">消费日历</text>
+        <text class="month-total">本月支出: ¥{{currentMonthTotal}}</text>
+      </view>
       <view class="month-selector">
         <text class="month-btn" bindtap="prevMonth">‹</text>
         <text class="month-text">{{currentYear}}年 {{monthNames[currentMonth]}}</text>
@@ -59,12 +62,11 @@
 
     <view class="calendar-days">
       <view wx:for="{{calendarDays}}" wx:key="index" class="calendar-day {{item && item.hasConsumption ? 'has-record' : ''}}" bindtap="viewDayDetail" data-date="{{item ? item.date : ''}}">
-        <text wx:if="{{item}}" class="day-number">{{item.day}}</text>
+        <text wx:if="{{item && !item.hasConsumption}}" class="day-number">{{item.day}}</text>
         <view wx:if="{{item && item.hasConsumption}}" class="day-indicator">
           <view class="brand-icons">
-            <image wx:for="{{item.brandGroups}}" wx:for-item="brand" wx:key="id" class="mini-brand-logo" src="{{brand.logo}}" mode="aspectFit" />
+            <image wx:for="{{item.brandGroups}}" wx:for-item="brand" wx:key="id" class="mini-brand-logo" src="{{brand.logo}}" mode="aspectFill" />
           </view>
-          <text class="day-amount">¥{{item.amount}}</text>
         </view>
       </view>
     </view>
@@ -72,7 +74,7 @@
 
   <!-- 添加按钮 -->
   <view class="add-button-wrapper">
-    <button class="add-button" bindtap="showAddRecord" type="primary">+ 记一杯</button>
+    <button class="add-button" bindtap="showAddRecord">+ 记一杯</button>
   </view>
 
   <!-- 加载状态 -->
@@ -125,10 +127,10 @@
         <view class="form-item">
           <text class="form-label">品牌</text>
           <view class="brand-selector">
-            <picker class="form-picker brand-picker" mode="selector" range="{{brands}}" range-key="name" bindchange="onBrandChange">
+            <picker class="form-picker brand-picker {{selectedBrandName === '请选择品牌' ? 'is-placeholder' : ''}}" mode="selector" range="{{brands}}" range-key="name" bindchange="onBrandChange" hover-class="picker-hover">
               <view class="picker-content">
                 <image wx:if="{{selectedBrandLogo}}" class="picker-logo" src="{{selectedBrandLogo}}" mode="aspectFit" />
-                <text class="picker-value">{{selectedBrandName}}</text>
+                <text class="picker-value {{selectedBrandName === '请选择品牌' ? 'placeholder-text' : ''}}">{{selectedBrandName}}</text>
               </view>
             </picker>
             <button class="add-brand-btn" size="mini" bindtap="addCustomBrand">+</button>
@@ -137,31 +139,31 @@
 
         <view class="form-item">
           <text class="form-label">品类</text>
-          <input class="form-input" placeholder="请输入品类名称" value="{{formData.category}}" bindinput="onFormInput" data-field="category" />
+          <input class="form-input" placeholder="请输入品类名称" placeholder-style="color:#999;font-weight:normal;" value="{{formData.category}}" bindinput="onFormInput" data-field="category" />
         </view>
 
         <view class="form-item">
           <text class="form-label">甜度</text>
-          <picker class="form-picker" mode="selector" range="{{['无糖', '三分糖', '半糖', '七分糖', '全糖']}}" bindchange="onSweetnessChange" value="{{['无糖', '三分糖', '半糖', '七分糖', '全糖'].indexOf(formData.sweetness)}}">
-            <view class="picker-value">{{formData.sweetness}}</view>
+          <picker class="form-picker" mode="selector" range="{{['无糖', '三分糖', '半糖', '七分糖', '全糖']}}" bindchange="onSweetnessChange" value="{{formData.sweetness ? ['无糖', '三分糖', '半糖', '七分糖', '全糖'].indexOf(formData.sweetness) : -1}}">
+            <view class="picker-value {{!formData.sweetness ? 'placeholder-text' : ''}}">{{formData.sweetness || '请选择甜度'}}</view>
           </picker>
         </view>
 
         <view class="form-item">
           <text class="form-label">冰度</text>
-          <picker class="form-picker" mode="selector" range="{{['去冰', '少冰', '正常冰', '多冰']}}" bindchange="onIceChange" value="{{['去冰', '少冰', '正常冰', '多冰'].indexOf(formData.iceLevel)}}">
-            <view class="picker-value">{{formData.iceLevel}}</view>
+          <picker class="form-picker" mode="selector" range="{{['去冰', '少冰', '正常冰', '多冰']}}" bindchange="onIceChange" value="{{formData.iceLevel ? ['去冰', '少冰', '正常冰', '多冰'].indexOf(formData.iceLevel) : -1}}">
+            <view class="picker-value {{!formData.iceLevel ? 'placeholder-text' : ''}}">{{formData.iceLevel || '请选择冰度'}}</view>
           </picker>
         </view>
 
         <view class="form-item">
           <text class="form-label">价格</text>
-          <input class="form-input" type="digit" placeholder="请输入价格" value="{{formData.price}}" bindinput="onFormInput" data-field="price" />
+          <input class="form-input" type="digit" placeholder="请输入价格" placeholder-style="color:#999;font-weight:normal;" value="{{formData.price}}" bindinput="onFormInput" data-field="price" />
         </view>
 
         <view class="form-item">
           <text class="form-label">评分</text>
-          <slider class="form-slider" min="1" max="5" step="1" value="{{formData.rating}}" bindchange="onRatingChange" show-value />
+          <slider class="form-slider" min="0" max="10" step="1" value="{{formData.rating}}" bindchange="onRatingChange" show-value />
         </view>
 
         <view class="form-item">
@@ -173,7 +175,7 @@
 
         <view class="form-item">
           <text class="form-label">评论</text>
-          <textarea class="form-textarea" placeholder="请输入评论（可选）" value="{{formData.comment}}" bindinput="onFormInput" data-field="comment" maxlength="200" />
+          <textarea class="form-textarea" placeholder="请输入评论（可选）" placeholder-style="color:#999;font-weight:normal;" value="{{formData.comment}}" bindinput="onFormInput" data-field="comment" maxlength="200" />
         </view>
       </view>
 
@@ -195,38 +197,38 @@
       <view class="modal-body">
         <view class="form-item">
           <text class="form-label">品牌</text>
-          <picker class="form-picker" mode="selector" range="{{brands}}" range-key="name" bindchange="onBrandChange">
-            <view class="picker-value">{{selectedBrandName}}</view>
+          <picker class="form-picker {{selectedBrandName === '请选择品牌' ? 'is-placeholder' : ''}}" mode="selector" range="{{brands}}" range-key="name" bindchange="onBrandChange" hover-class="picker-hover">
+            <view class="picker-value {{selectedBrandName === '请选择品牌' ? 'placeholder-text' : ''}}">{{selectedBrandName}}</view>
           </picker>
         </view>
 
         <view class="form-item">
           <text class="form-label">品类</text>
-          <input class="form-input" placeholder="请输入品类名称" value="{{formData.category}}" bindinput="onFormInput" data-field="category" />
+          <input class="form-input" placeholder="请输入品类名称" placeholder-style="color:#999;font-weight:normal;" value="{{formData.category}}" bindinput="onFormInput" data-field="category" />
         </view>
 
         <view class="form-item">
           <text class="form-label">甜度</text>
-          <picker class="form-picker" mode="selector" range="{{['无糖', '三分糖', '半糖', '七分糖', '全糖']}}" bindchange="onSweetnessChange" value="{{['无糖', '三分糖', '半糖', '七分糖', '全糖'].indexOf(formData.sweetness)}}">
-            <view class="picker-value">{{formData.sweetness}}</view>
+          <picker class="form-picker {{!formData.sweetness ? 'is-placeholder' : ''}}" mode="selector" range="{{['无糖', '三分糖', '半糖', '七分糖', '全糖']}}" bindchange="onSweetnessChange" value="{{formData.sweetness ? ['无糖', '三分糖', '半糖', '七分糖', '全糖'].indexOf(formData.sweetness) : -1}}" hover-class="picker-hover">
+            <view class="picker-value {{!formData.sweetness ? 'placeholder-text' : ''}}">{{formData.sweetness || '请选择甜度'}}</view>
           </picker>
         </view>
 
         <view class="form-item">
           <text class="form-label">冰度</text>
-          <picker class="form-picker" mode="selector" range="{{['去冰', '少冰', '正常冰', '多冰']}}" bindchange="onIceChange" value="{{['去冰', '少冰', '正常冰', '多冰'].indexOf(formData.iceLevel)}}">
-            <view class="picker-value">{{formData.iceLevel}}</view>
+          <picker class="form-picker {{!formData.iceLevel ? 'is-placeholder' : ''}}" mode="selector" range="{{['去冰', '少冰', '正常冰', '多冰']}}" bindchange="onIceChange" value="{{formData.iceLevel ? ['去冰', '少冰', '正常冰', '多冰'].indexOf(formData.iceLevel) : -1}}" hover-class="picker-hover">
+            <view class="picker-value {{!formData.iceLevel ? 'placeholder-text' : ''}}">{{formData.iceLevel || '请选择冰度'}}</view>
           </picker>
         </view>
 
         <view class="form-item">
           <text class="form-label">价格</text>
-          <input class="form-input" type="digit" placeholder="请输入价格" value="{{formData.price}}" bindinput="onFormInput" data-field="price" />
+          <input class="form-input" type="digit" placeholder="请输入价格" placeholder-style="color:#999;font-weight:normal;" value="{{formData.price}}" bindinput="onFormInput" data-field="price" />
         </view>
 
         <view class="form-item">
           <text class="form-label">评分</text>
-          <slider class="form-slider" min="1" max="5" step="1" value="{{formData.rating}}" bindchange="onRatingChange" show-value />
+          <slider class="form-slider" min="0" max="10" step="1" value="{{formData.rating}}" bindchange="onRatingChange" show-value />
         </view>
 
         <view class="form-item">
@@ -238,13 +240,43 @@
 
         <view class="form-item">
           <text class="form-label">评论</text>
-          <textarea class="form-textarea" placeholder="请输入评论（可选）" value="{{formData.comment}}" bindinput="onFormInput" data-field="comment" maxlength="200" />
+          <textarea class="form-textarea" placeholder="请输入评论（可选）" placeholder-style="color:#999;font-weight:normal;" value="{{formData.comment}}" bindinput="onFormInput" data-field="comment" maxlength="200" />
         </view>
       </view>
 
       <view class="modal-footer">
         <button class="modal-btn cancel-btn" bindtap="closeEditModal">取消</button>
         <button class="modal-btn confirm-btn" bindtap="submitEdit" type="primary">保存</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加自定义品牌模态框 -->
+  <view wx:if="{{showAddBrandModal}}" class="modal-overlay" bindtap="closeAddBrandModal">
+    <view class="modal-content" catchtap>
+      <view class="modal-header">
+        <text class="modal-title">添加新品牌</text>
+        <text class="modal-close" bindtap="closeAddBrandModal">×</text>
+      </view>
+      <view class="modal-body">
+        <view class="form-item">
+          <text class="form-label">品牌名称</text>
+          <input class="form-input" placeholder="请输入品牌名称" placeholder-style="color:#999;font-weight:normal;" value="{{newBrandName}}" bindinput="onNewBrandNameInput" />
+        </view>
+        <view class="form-item">
+          <text class="form-label">品牌Logo</text>
+          <view class="logo-uploader" bindtap="chooseBrandLogo">
+            <image wx:if="{{newBrandLogo}}" src="{{newBrandLogo}}" class="uploaded-logo" mode="aspectFit" />
+            <view wx:else class="upload-placeholder">
+              <text class="upload-icon">+</text>
+              <text class="upload-text">点击上传Logo</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="modal-footer">
+        <button class="modal-btn cancel-btn" bindtap="closeAddBrandModal">取消</button>
+        <button class="modal-btn confirm-btn" bindtap="submitNewBrand" type="primary">添加</button>
       </view>
     </view>
   </view>

@@ -28,6 +28,11 @@ Page({
   },
 
   async onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({
+        selected: 1
+      })
+    }
     await this.loadData();
   },
 
@@ -69,15 +74,23 @@ Page({
     var topRated = ratedList.slice(0, 5);
 
     // 购买次数TOP5（ES5安全）
-    var brandCount = {};
+    var drinkCount = {};
     for (var i = 0; i < records.length; i++) {
       var brand = records[i].brandName || records[i].brand || '未知品牌';
-      brandCount[brand] = (brandCount[brand] || 0) + 1;
+      var drink = records[i].drinkName || records[i].category || '未知品类';
+      var key = brand + '|||' + drink;
+      drinkCount[key] = (drinkCount[key] || 0) + 1;
     }
     var topFreqArr = [];
-    for (var name in brandCount) {
-      if (Object.prototype.hasOwnProperty.call(brandCount, name)) {
-        topFreqArr.push({ name: name, count: brandCount[name] });
+    for (var key in drinkCount) {
+      if (Object.prototype.hasOwnProperty.call(drinkCount, key)) {
+        var parts = key.split('|||');
+        topFreqArr.push({ 
+          name: parts[0] + ' ' + parts[1], // Fallback display
+          brandName: parts[0],
+          drinkName: parts[1],
+          count: drinkCount[key] 
+        });
       }
     }
     topFreqArr.sort(function(a, b) { return b.count - a.count; });

@@ -91,18 +91,22 @@ Page({
     calendarDays: [],
     currentYear: new Date().getFullYear(),
     currentMonth: new Date().getMonth(),
-    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+    monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+    currentMonthTotal: 0,
 
     // 模态框状态
     showAddModal: false,
     showEditModal: false,
+    showAddBrandModal: false, // 新增：添加品牌模态框
+    newBrandName: '', // 新增：新品牌名称
+    newBrandLogo: '', // 新增：新品牌Logo路径
     currentRecord: null,
     selectedBrandName: '请选择品牌',
     formData: {
       brandId: '',
       category: '',
-      sweetness: '半糖',
-      iceLevel: '少冰',
+      sweetness: '',
+      iceLevel: '',
       price: '',
       rating: 5,
       comment: '',
@@ -150,6 +154,11 @@ Page({
   },
 
   async onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({
+        selected: 0
+      })
+    }
     await this.loadData();
   },
 
@@ -167,7 +176,7 @@ Page({
         const brand = brands.find(b => b.id === record.brandId);
         let logoPath = '';
         if (brand) {
-           if (brand.logoUrl && brand.logoUrl.startsWith('http')) {
+           if (brand.logoUrl && (brand.logoUrl.startsWith('http') || brand.logoUrl.startsWith('data:image'))) {
              logoPath = brand.logoUrl;
            } else {
              const brandName = brand.name;
@@ -188,12 +197,18 @@ Page({
       // 构建日历数据
       const currentDate = new Date(this.data.currentYear, this.data.currentMonth, 1);
       const calendarDays = buildCalendarData(currentDate, processedRecords);
+      
+      // 计算当月总金额
+      const currentMonthTotal = calendarDays.reduce((sum, day) => {
+        return sum + (day ? (day.amount || 0) : 0);
+      }, 0);
 
       this.setData({
         user,
         records: processedRecords,
         brands,
-        calendarDays
+        calendarDays,
+        currentMonthTotal
       });
     } catch (e) {
       console.error('加载数据失败:', e);
@@ -244,7 +259,13 @@ Page({
     const { currentYear, currentMonth, records } = this.data;
     const currentDate = new Date(currentYear, currentMonth, 1);
     const calendarDays = buildCalendarData(currentDate, records);
-    this.setData({ calendarDays, currentDate });
+    
+    // 计算当月总金额
+    const currentMonthTotal = calendarDays.reduce((sum, day) => {
+      return sum + (day ? (day.amount || 0) : 0);
+    }, 0);
+
+    this.setData({ calendarDays, currentDate, currentMonthTotal });
   },
 
   // 查看某天的详情
@@ -285,14 +306,96 @@ Page({
       formData: {
         brandId: '',
         category: '',
-        sweetness: '半糖',
-        iceLevel: '少冰',
+        sweetness: '',
+        iceLevel: '',
         price: '',
         rating: 5,
         comment: '',
         consumeDate: dateStr
       }
     });
+  },
+
+  // 打开添加自定义品牌模态框
+  addCustomBrand() {
+    this.setData({
+      showAddBrandModal: true,
+      newBrandName: '',
+      newBrandLogo: ''
+    });
+  },
+
+  closeAddBrandModal() {
+    this.setData({ showAddBrandModal: false });
+  },
+
+  onNewBrandNameInput(e) {
+    this.setData({ newBrandName: e.detail.value });
+  },
+
+  // 选择品牌Logo
+  chooseBrandLogo() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      sourceType: ['album', 'camera'],
+      success: (res) => {
+        const tempFilePath = res.tempFiles[0].tempFilePath;
+        this.setData({ newBrandLogo: tempFilePath });
+      }
+    });
+  },
+
+  // 提交新品牌
+  async submitNewBrand() {
+    const { newBrandName, newBrandLogo } = this.data;
+    if (!newBrandName || !newBrandName.trim()) {
+      wx.showToast({ title: '请输入品牌名称', icon: 'none' });
+      return;
+    }
+
+    wx.showLoading({ title: '添加中...' });
+
+    try {
+      // 1. 如果有图片，先上传图片（这里模拟上传，实际应上传到服务器或转为Base64）
+      // 由于没有后端文件上传接口，这里我们假设后端支持接收 Base64 或者直接存储 URL
+      // 为了演示，我们将本地临时路径转为 Base64 存储（注意：Base64 字符串可能很长，数据库字段需足够大）
+      // 或者，如果只是本地演示，可以直接用临时路径（但重启后会失效），
+      // 更好的方式是：如果后端支持，将图片上传到文件服务器。
+      // 鉴于当前环境，我们尝试将图片转为 Base64 发送给后端 logoUrl 字段
+      
+      let logoUrl = '';
+      if (newBrandLogo) {
+        // 读取文件转 Base64
+        const fs = wx.getFileSystemManager();
+        const base64 = fs.readFileSync(newBrandLogo, 'base64');
+        logoUrl = 'data:image/png;base64,' + base64;
+      }
+
+      // 2. 调用创建品牌接口
+      const newBrand = await brandsService.createBrand({
+        name: newBrandName.trim(),
+        logoUrl: logoUrl // 将 Base64 作为 URL 存入
+      });
+
+      // 3. 刷新品牌列表并选中新品牌
+      const brands = await brandsService.getAllBrands();
+      this.setData({
+        brands,
+        showAddBrandModal: false,
+        selectedBrandName: newBrand.name,
+        selectedBrandLogo: newBrand.logoUrl || '', // 显示新Logo
+        'formData.brandId': newBrand.id
+      });
+
+      wx.showToast({ title: '添加成功', icon: 'success' });
+
+    } catch (e) {
+      console.error('添加品牌失败:', e);
+      wx.showToast({ title: '添加失败', icon: 'none' });
+    } finally {
+      wx.hideLoading();
+    }
   },
 
   // ...existing code...
@@ -315,7 +418,7 @@ Page({
 
     if (selectedBrand) {
       let logoPath = selectedBrand.logoUrl;
-      if (!logoPath || (!logoPath.startsWith('http') && !logoPath.startsWith('/'))) {
+      if (!logoPath || (!logoPath.startsWith('http') && !logoPath.startsWith('data:image') && !logoPath.startsWith('/'))) {
          logoPath = `/logos/${selectedBrand.name}.png`;
          if (['喜茶', '奶茶'].includes(selectedBrand.name)) {
             logoPath = `/logos/${selectedBrand.name}.jpg`;
@@ -336,44 +439,76 @@ Page({
     }
   },
 
-  // 添加自定义品牌
-  async addCustomBrand() {
-    wx.showModal({
-      title: '添加新品牌',
-      editable: true,
-      placeholderText: '请输入品牌名称',
-      success: async (res) => {
-        if (res.confirm && res.content) {
-          const name = res.content.trim();
-          if (!name) return;
+  // 打开添加自定义品牌模态框
+  addCustomBrand() {
+    this.setData({
+      showAddBrandModal: true,
+      newBrandName: '',
+      newBrandLogo: ''
+    });
+  },
 
-          try {
-            wx.showLoading({ title: '创建中...' });
-            const newBrand = await brandsService.createBrand({ name });
+  closeAddBrandModal() {
+    this.setData({ showAddBrandModal: false });
+  },
 
-            // 重新加载品牌列表
-            const brands = await brandsService.getAllBrands();
-            this.setData({ brands });
+  onNewBrandNameInput(e) {
+    this.setData({ newBrandName: e.detail.value });
+  },
 
-            // 选中新创建的品牌
-            const createdBrand = brands.find(b => b.name === name);
-            if (createdBrand) {
-              this.setData({
-                'formData.brandId': createdBrand.id,
-                'selectedBrandName': createdBrand.name,
-                'selectedBrandLogo': '/public/default-avatar.svg' // 自定义品牌默认图标
-              });
-            }
-
-            wx.hideLoading();
-            wx.showToast({ title: '添加成功', icon: 'success' });
-          } catch (e) {
-            wx.hideLoading();
-            wx.showToast({ title: e.message || '添加失败', icon: 'none' });
-          }
-        }
+  // 选择品牌Logo
+  chooseBrandLogo() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      sourceType: ['album', 'camera'],
+      success: (res) => {
+        const tempFilePath = res.tempFiles[0].tempFilePath;
+        this.setData({ newBrandLogo: tempFilePath });
       }
     });
+  },
+
+  // 提交新品牌
+  async submitNewBrand() {
+    const { newBrandName, newBrandLogo } = this.data;
+    if (!newBrandName || !newBrandName.trim()) {
+      wx.showToast({ title: '请输入品牌名称', icon: 'none' });
+      return;
+    }
+
+    wx.showLoading({ title: '添加中...' });
+
+    try {
+      let logoUrl = '';
+      if (newBrandLogo) {
+        const fs = wx.getFileSystemManager();
+        const base64 = fs.readFileSync(newBrandLogo, 'base64');
+        logoUrl = 'data:image/png;base64,' + base64;
+      }
+
+      const newBrand = await brandsService.createBrand({
+        name: newBrandName.trim(),
+        logoUrl: logoUrl
+      });
+
+      const brands = await brandsService.getAllBrands();
+      this.setData({
+        brands,
+        showAddBrandModal: false,
+        selectedBrandName: newBrand.name,
+        selectedBrandLogo: newBrand.logoUrl || '',
+        'formData.brandId': newBrand.id
+      });
+
+      wx.showToast({ title: '添加成功', icon: 'success' });
+
+    } catch (e) {
+      console.error('添加品牌失败:', e);
+      wx.showToast({ title: '添加失败', icon: 'none' });
+    } finally {
+      wx.hideLoading();
+    }
   },
 
   onSweetnessChange(e) {
@@ -413,6 +548,14 @@ Page({
     }
     if (!formData.category || formData.category.trim() === '') {
       wx.showToast({ title: '请输入品类', icon: 'none' });
+      return;
+    }
+    if (!formData.sweetness) {
+      wx.showToast({ title: '请选择甜度', icon: 'none' });
+      return;
+    }
+    if (!formData.iceLevel) {
+      wx.showToast({ title: '请选择冰度', icon: 'none' });
       return;
     }
     if (!formData.price || parseFloat(formData.price) <= 0) {

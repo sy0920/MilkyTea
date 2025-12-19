@@ -45,8 +45,9 @@
       <view class="stats-title">购买次数（Top5）</view>
       <view wx:if="{{topFreq.length > 0}}" class="brand-list">
         <view wx:for="{{topFreq}}" wx:key="name" class="brand-item">
-          <view class="brand-info">
-            <text class="brand-name-text">{{item.name}}</text>
+          <view class="brand-info" style="flex-direction: column; align-items: flex-start; gap: 4rpx;">
+            <text class="brand-name-text">{{item.brandName}}</text>
+            <text class="rating-category">{{item.drinkName}}</text>
           </view>
           <view class="brand-stats">
             <text class="stat-text">{{item.count}}次</text>

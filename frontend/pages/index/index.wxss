@@ -1,7 +1,7 @@
 .index-page {
   min-height: 100vh;
   background-color: var(--secondary-color);
-  padding-bottom: 100rpx;
+  padding-bottom: 30rpx;
 }
 
 .page-header {
@@ -111,10 +111,22 @@
   margin-bottom: 30rpx;
 }
 
+.calendar-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
 .calendar-title {
   font-size: 32rpx;
   font-weight: bold;
   color: var(--text-primary);
+}
+
+.month-total {
+  font-size: 24rpx;
+  color: #8B4513;
+  font-weight: bold;
+  margin-top: 4rpx;
 }
 
 .month-selector {
@@ -167,51 +179,71 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   border-radius: var(--border-radius-md);
   background: transparent;
   position: relative;
-  padding-top: 10rpx;
   font-size: 26rpx;
   color: var(--text-primary);
+  overflow: hidden;
 }
 
 .calendar-day.has-record {
   background: var(--secondary-color);
-  border: 1rpx solid var(--primary-light);
+  border: 1rpx solid transparent;
 }
 
 .day-number {
+  position: absolute;
+  top: 4rpx;
+  left: 8rpx;
   font-weight: 500;
+  z-index: 2;
+  text-shadow: 0 0 4rpx rgba(255, 255, 255, 0.8);
 }
 
 .day-indicator {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 5rpx;
+  justify-content: center;
   width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .brand-icons {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 2rpx;
-  max-width: 100%;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: var(--border-radius-md);
 }
 
 .mini-brand-logo {
-  width: 24rpx;
-  height: 24rpx;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--border-radius-md);
+  object-fit: cover;
 }
 
 .day-amount {
-  font-size: 18rpx;
+  position: absolute;
+  bottom: 2rpx;
+  right: 4rpx;
+  font-size: 16rpx;
   color: var(--primary-dark);
-  margin-top: 4rpx;
   font-weight: bold;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 0 4rpx;
+  border-radius: 4rpx;
 }
 
 /* 添加按钮 */
@@ -227,7 +259,8 @@
   border-radius: 45rpx;
   font-size: 32rpx;
   font-weight: bold;
-  background: var(--primary-color);
+  background: #8B4513; /* 深棕色 */
+  color: white;
   box-shadow: var(--shadow-md);
 }
 
@@ -379,6 +412,41 @@
   margin-bottom: 20rpx;
 }
 
+/* 自定义品牌模态框样式 */
+.logo-uploader {
+  width: 160rpx;
+  height: 160rpx;
+  border: 2rpx dashed #ccc; /* Make border more visible */
+  border-radius: var(--border-radius-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9; /* Slightly different background */
+  overflow: hidden;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text-light);
+}
+
+.upload-icon {
+  font-size: 60rpx;
+  line-height: 60rpx;
+  margin-bottom: 10rpx;
+}
+
+.upload-text {
+  font-size: 24rpx;
+}
+
+.uploaded-logo {
+  width: 100%;
+  height: 100%;
+}
+
 .record-price {
   font-weight: bold;
   color: var(--accent-color);
@@ -427,6 +495,11 @@
   display: flex;
   align-items: center;
   gap: 15rpx;
+  width: 100%;
+  height: 100%;
+  padding: 0 20rpx; /* Add padding to inner content */
+  box-sizing: border-box;
+  flex: 1;
 }
 
 .picker-logo {
@@ -437,12 +510,17 @@
 
 .add-brand-btn {
   width: 60rpx !important;
-  height: 60rpx;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 60rpx !important;
+  min-height: 60rpx !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   font-size: 40rpx;
+  line-height: 60rpx !important; /* Match height for perfect vertical centering */
+  text-align: center;
+  transform: translateY(0); /* reset any offset */
   background: var(--secondary-color);
   color: var(--primary-color);
   border-radius: 10rpx;
@@ -517,10 +595,38 @@
   background: var(--secondary-color);
   border: 1rpx solid transparent;
   border-radius: var(--border-radius-md);
-  padding: 20rpx;
   font-size: 28rpx;
   box-sizing: border-box;
   transition: all 0.3s;
+}
+
+.form-input {
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 0 20rpx;
+  font-weight: bold; /* Make category text bold */
+}
+
+.form-picker {
+  height: 80rpx;
+  display: block; /* Make entire box the clickable area */
+  line-height: 80rpx; /* Ensure inner content vertically centered */
+  padding: 0; /* No outer padding so full area belongs to picker */
+}
+
+.form-picker.is-placeholder {
+  border-color: #d9c2b3; /* light brown border */
+  background: #faf5f0; /* light brownish background */
+}
+
+.picker-hover {
+  background: #f3e9e3; /* hover tint */
+}
+
+.form-textarea {
+  padding: 20rpx;
+  min-height: 160rpx;
+  line-height: 1.5;
 }
 
 .form-input:focus, .form-textarea:focus {
@@ -528,18 +634,21 @@
   border-color: var(--primary-color);
 }
 
-.form-picker {
-  height: 80rpx;
-  display: flex;
-  align-items: center;
-}
-
 .picker-value {
   color: var(--text-primary);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 24rpx; /* Increase padding for stronger clickable feel */
+  font-weight: bold; /* Bold when value present */
+  box-sizing: border-box;
+  flex: 1; /* Ensure it fills flex container */
 }
 
-.form-textarea {
-  min-height: 160rpx;
+.picker-value.placeholder-text {
+  font-weight: normal;
+  color: #7A7E83; /* slightly darker for visibility */
 }
 
 .modal-footer {

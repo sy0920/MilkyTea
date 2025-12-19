@@ -131,7 +131,9 @@
 
 .input {
   width: 100%;
-  padding: 20rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  padding: 0 30rpx;
   border: 2rpx solid transparent;
   background-color: var(--secondary-color);
   border-radius: var(--border-radius-md);
@@ -148,7 +150,7 @@
 .submit-btn {
   height: 90rpx;
   line-height: 90rpx;
-  background: var(--primary-color);
+  background: #8B4513; /* 深棕色 */
   border-radius: 45rpx;
   font-size: 32rpx;
   font-weight: bold;
