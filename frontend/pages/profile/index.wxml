@@ -75,14 +75,30 @@
           <view class="form-item">
             <text class="form-label">头像</text>
             <view class="avatar-selector">
-              <view
-                wx:for="{{avatars}}"
-                wx:key="*this"
-                class="avatar-option {{editForm.avatar === item ? 'selected' : ''}}"
-                bindtap="selectAvatar"
-                data-src="{{item}}"
-              >
-                <image src="{{item}}" mode="aspectFit" />
+              <!-- 当前头像预览 -->
+              <view class="current-avatar-preview">
+                <image src="{{editForm.avatar || '/public/default-avatar.svg'}}" mode="aspectFit" />
+              </view>
+
+              <!-- 上传头像按钮 -->
+              <button class="upload-avatar-btn" bindtap="uploadAvatar">
+                <text>上传头像</text>
+              </button>
+
+              <!-- 历史头像列表 -->
+              <view wx:if="{{avatarHistory.length > 0}}" class="avatar-history">
+                <text class="history-label">历史头像</text>
+                <view class="history-list">
+                  <view
+                    wx:for="{{avatarHistory}}"
+                    wx:key="*this"
+                    class="avatar-option {{editForm.avatar === item ? 'selected' : ''}}"
+                    bindtap="selectAvatar"
+                    data-src="{{item}}"
+                  >
+                    <image src="{{item}}" mode="aspectFit" />
+                  </view>
+                </view>
               </view>
             </view>
           </view>

@@ -278,6 +278,49 @@
 
 .avatar-selector {
   display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.current-avatar-preview {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4rpx solid var(--primary-color);
+  background: var(--secondary-color);
+  align-self: center;
+  margin-bottom: 10rpx;
+}
+
+.current-avatar-preview image {
+  width: 100%;
+  height: 100%;
+}
+
+.upload-avatar-btn {
+  background: var(--primary-color);
+  color: white;
+  border-radius: var(--border-radius-md);
+  padding: 20rpx 40rpx;
+  font-size: 28rpx;
+  border: none;
+  align-self: center;
+}
+
+.avatar-history {
+  margin-top: 20rpx;
+}
+
+.history-label {
+  display: block;
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-bottom: 15rpx;
+}
+
+.history-list {
+  display: flex;
   flex-wrap: wrap;
   gap: 20rpx;
 }
@@ -287,8 +330,9 @@
   height: 100rpx;
   border-radius: 50%;
   border: 4rpx solid transparent;
-  padding: 4rpx;
+  overflow: hidden;
   cursor: pointer;
+  background: var(--secondary-color);
 }
 
 .avatar-option.selected {
@@ -298,7 +342,6 @@
 .avatar-option image {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
 }
 
 .modal-footer {

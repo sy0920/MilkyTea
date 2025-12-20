@@ -25,15 +25,8 @@ Page({
       newPassword: ''
     },
 
-    // 预设头像列表
-    avatars: [
-      '/public/default-avatar.svg',
-      '/logos/喜茶.jpg',
-      '/logos/茶颜悦色.png',
-      '/logos/蜜雪冰城.png',
-      '/logos/茶百道.png',
-      '/logos/古茗.png'
-    ]
+    // 用户历史头像列表
+    avatarHistory: []
   },
 
   async onLoad() {
@@ -59,9 +52,13 @@ Page({
         statisticsService.getSummary().catch(() => null)
       ]);
 
+      // 加载头像历史（从本地存储）
+      const avatarHistory = wx.getStorageSync('avatarHistory') || [];
+
       this.setData({
         user: userInfo || user,
-        summary
+        summary,
+        avatarHistory
       });
     } catch (e) {
       console.error('加载用户信息失败:', e);
@@ -124,9 +121,65 @@ Page({
     });
   },
 
+  // 上传头像
+  async uploadAvatar() {
+    try {
+      const res = await new Promise((resolve, reject) => {
+        wx.chooseImage({
+          count: 1,
+          sizeType: ['compressed'],
+          sourceType: ['album', 'camera'],
+          success: resolve,
+          fail: reject
+        });
+      });
+
+      if (res.tempFilePaths && res.tempFilePaths.length > 0) {
+        const tempFilePath = res.tempFilePaths[0];
+
+        wx.showLoading({ title: '处理中...' });
+
+        // 将图片转换为 Base64
+        const base64 = await new Promise((resolve, reject) => {
+          wx.getFileSystemManager().readFile({
+            filePath: tempFilePath,
+            encoding: 'base64',
+            success: (res) => resolve(res.data),
+            fail: reject
+          });
+        });
+
+        // 构建 Base64 数据URI
+        const avatarBase64 = `data:image/jpeg;base64,${base64}`;
+
+        // 直接更新到表单，不立即保存到服务器
+        this.setData({
+          'editForm.avatar': avatarBase64
+        });
+
+        // 添加到历史记录
+        const { avatarHistory } = this.data;
+        if (!avatarHistory.includes(avatarBase64)) {
+          avatarHistory.unshift(avatarBase64);
+          this.setData({ avatarHistory });
+        }
+
+        wx.hideLoading();
+        wx.showToast({ title: '头像已选择，点击保存生效', icon: 'success', duration: 2000 });
+      }
+    } catch (e) {
+      wx.hideLoading();
+      console.error('选择头像失败:', e);
+      wx.showToast({
+        title: e.errMsg || e.message || '选择失败',
+        icon: 'none'
+      });
+    }
+  },
+
   // 提交个人信息修改
   async submitProfile() {
-    const { editForm } = this.data;
+    const { editForm, avatarHistory } = this.data;
 
     if (!editForm.username || editForm.username.trim() === '') {
       wx.showToast({ title: '用户名不能为空', icon: 'none' });
@@ -141,6 +194,9 @@ Page({
         phone: editForm.phone.trim(),
         avatar: editForm.avatar
       });
+
+      // 保存头像历史到本地存储
+      wx.setStorageSync('avatarHistory', avatarHistory);
 
       wx.hideLoading();
       wx.showToast({ title: '保存成功', icon: 'success' });
