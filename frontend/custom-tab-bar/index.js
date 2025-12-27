@@ -7,6 +7,9 @@ Component({
       pagePath: "/pages/index/index",
       text: "首页"
     }, {
+      pagePath: "/pages/records/index",
+      text: "记录"
+    }, {
       pagePath: "/pages/statistics/index",
       text: "统计"
     }]

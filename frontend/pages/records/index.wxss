@@ -1,0 +1,176 @@
+.container {
+  padding: 20rpx;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+}
+
+.header {
+  margin-bottom: 30rpx;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding: 10rpx;
+  border-radius: 10rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.search-input {
+  flex: 1;
+  padding: 10rpx 20rpx;
+  font-size: 28rpx;
+}
+
+.search-btn {
+  padding: 10rpx 30rpx;
+  background-color: #8B4513;
+  color: #fff;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  margin-left: 10rpx;
+}
+
+.search-stats {
+  display: flex;
+  justify-content: space-around;
+  background-color: #faf6e6ff;
+  padding: 30rpx;
+  border-radius: 12rpx;
+  margin-bottom: 30rpx;
+  border: 1rpx solid #f7f2ebff;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-item .label {
+  font-size: 24rpx;
+  color: #888;
+  margin-bottom: 10rpx;
+}
+
+.stat-item .value {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.stat-item .value.highlight {
+  color: #8B4513;
+  font-size: 36rpx;
+}
+
+.record-list {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.list-header {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  color: #333;
+  border-left: 8rpx solid #8B4513;
+  padding-left: 16rpx;
+}
+
+.record-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+
+.record-item:last-child {
+  border-bottom: none;
+}
+
+.record-main {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.brand-logo {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  background-color: #eee;
+}
+
+.record-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.record-title {
+  margin-bottom: 8rpx;
+}
+
+.brand-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-right: 10rpx;
+  color: #333;
+}
+
+.category {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.record-meta {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.record-comment {
+  margin-top: 8rpx;
+  max-width: 400rpx;
+}
+
+.comment-text {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.4;
+}
+
+.date {
+  margin-right: 20rpx;
+}
+
+.record-rating {
+  display: flex;
+  align-items: baseline;
+  background-color: #fcf7e6ff;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.rating-score {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #8B4513;
+}
+
+.rating-label {
+  font-size: 20rpx;
+  color: #8B4513;
+  margin-left: 4rpx;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}

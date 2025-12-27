@@ -197,6 +197,39 @@ public class RecordService {
         }
     }
 
+    public RecordDtos.SearchByCategoryResponse searchByCategory(String username, String category) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("用户不存在"));
+
+        // 获取当前用户关于该品类的记录
+        List<MilkTeaRecord> myRecords = recordRepository
+                .findByUserAndCategoryContainingIgnoreCaseOrderByConsumeDateDesc(user, category);
+
+        // 获取所有用户关于该品类的记录
+        List<MilkTeaRecord> allRecords = recordRepository
+                .findByCategoryContainingIgnoreCaseOrderByConsumeDateDesc(category);
+
+        // 计算平均评分
+        Double averageRating = null;
+        if (!allRecords.isEmpty()) {
+            averageRating = allRecords.stream()
+                    .mapToInt(MilkTeaRecord::getRating)
+                    .average()
+                    .orElse(0.0);
+        }
+
+        // 转换当前用户的记录
+        List<RecordDtos.RecordResponse> myRecordResponses = myRecords.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+
+        return new RecordDtos.SearchByCategoryResponse(
+                category,
+                myRecordResponses,
+                averageRating,
+                (long) allRecords.size());
+    }
+
     private RecordDtos.RecordResponse convertToResponse(MilkTeaRecord record) {
         return new RecordDtos.RecordResponse(
                 record.getId(),

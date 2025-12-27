@@ -29,8 +29,25 @@ function request(method, url, data = {}, headers = {}) {
         const { statusCode, data } = res;
         if (statusCode >= 200 && statusCode < 300) {
           resolve(data);
-        } else if (statusCode === 401) {
-          reject({ code: 401, message: 'Unauthorized' });
+        } else if (statusCode === 401 || statusCode === 403) {
+          // Clear local storage
+          wx.removeStorageSync('token');
+          wx.removeStorageSync('user');
+          if (app && app.globalData) {
+            app.globalData.token = '';
+            app.globalData.user = null;
+          }
+          
+          // Redirect to login if not already there
+          const pages = getCurrentPages();
+          const currentPage = pages[pages.length - 1];
+          if (currentPage && currentPage.route !== 'pages/login/login') {
+            wx.reLaunch({
+              url: '/pages/login/login'
+            });
+          }
+          
+          reject({ code: statusCode, message: 'Unauthorized' });
         } else {
           reject({ code: statusCode, message: (data && data.message) || 'Request failed' });
         }

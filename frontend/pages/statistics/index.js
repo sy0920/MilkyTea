@@ -18,20 +18,27 @@ Page({
     // 排行榜
     topRated: [], // 评分TOP5
     topFreq: [],  // 品牌购买次数TOP5
-
-    // 近期记录
-    recentRecords: []
   },
 
   async onLoad() {
+    const authStore = require('../../stores/auth.js');
+    if (!authStore.isAuthenticated()) {
+      wx.reLaunch({ url: '/pages/login/login' });
+      return;
+    }
     await this.loadData();
   },
 
   async onShow() {
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({
-        selected: 1
+        selected: 2
       })
+    }
+    const authStore = require('../../stores/auth.js');
+    if (!authStore.isAuthenticated()) {
+      wx.reLaunch({ url: '/pages/login/login' });
+      return;
     }
     await this.loadData();
   },
@@ -96,16 +103,10 @@ Page({
     topFreqArr.sort(function(a, b) { return b.count - a.count; });
     var topFreq = topFreqArr.slice(0, 5);
 
-    // 近期记录（ES5安全）
-    var recentCopy = records.slice();
-    recentCopy.sort(function(a, b) { return new Date(b.consumeDate) - new Date(a.consumeDate); });
-    var recentRecords = recentCopy.slice(0, 5);
-
     this.setData({
       summary: summary,
       topRated: topRated,
-      topFreq: topFreq,
-      recentRecords: recentRecords
+      topFreq: topFreq
     });
   }
 });

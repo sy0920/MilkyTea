@@ -36,6 +36,10 @@ function getRecordDetail(id) {
   return get(`/api/records/${id}`);
 }
 
+function searchRecords(category) {
+  return get(`/api/records/search`, { category });
+}
+
 function deleteRecord(id) {
   return del(`/api/records/${id}`);
 }
@@ -45,6 +49,7 @@ module.exports = {
   createRecord,
   updateRecord,
   getRecordDetail,
+  searchRecords,
   deleteRecord
 };
 

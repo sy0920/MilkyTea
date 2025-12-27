@@ -58,23 +58,6 @@
         <text class="empty-text">暂无购买次数数据</text>
       </view>
     </view>
-    <!-- 近期记录 -->
-    <view class="stats-card">
-      <view class="stats-title">近期记录</view>
-      <view wx:if="{{recentRecords.length > 0}}" class="recent-list">
-        <view wx:for="{{recentRecords}}" wx:key="id" class="recent-item">
-          <view class="recent-info">
-            <text class="recent-brand">{{item.brandName || item.brand}}</text>
-            <text class="recent-category">{{item.drinkName || item.category || '-'}}</text>
-            <text class="recent-date">{{item.consumeDate}}</text>
-          </view>
-          <text class="recent-price">¥{{item.price}}</text>
-        </view>
-      </view>
-      <view wx:else class="empty-wrapper">
-        <text class="empty-text">暂无近期记录</text>
-      </view>
-    </view>
     <!-- 空状态（无记录） -->
     <view wx:if="{{summary.totalCups === 0}}" class="empty-wrapper">
       <text class="empty-text">暂无统计数据</text>

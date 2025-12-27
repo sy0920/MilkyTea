@@ -13,25 +13,31 @@ import java.util.List;
 @Repository
 public interface MilkTeaRecordRepository extends JpaRepository<MilkTeaRecord, Long> {
 
-    List<MilkTeaRecord> findByUserOrderByConsumeDateDesc(User user);
+        List<MilkTeaRecord> findByUserOrderByConsumeDateDesc(User user);
 
-    List<MilkTeaRecord> findByUserAndConsumeDateBetweenOrderByConsumeDateDesc(
-            User user, LocalDate startDate, LocalDate endDate);
+        List<MilkTeaRecord> findByUserAndConsumeDateBetweenOrderByConsumeDateDesc(
+                        User user, LocalDate startDate, LocalDate endDate);
 
-    @Query("SELECT r FROM MilkTeaRecord r WHERE r.user = :user AND " +
-            "YEAR(r.consumeDate) = :year AND MONTH(r.consumeDate) = :month " +
-            "ORDER BY r.consumeDate DESC")
-    List<MilkTeaRecord> findByUserAndYearAndMonth(
-            @Param("user") User user,
-            @Param("year") int year,
-            @Param("month") int month);
+        @Query("SELECT r FROM MilkTeaRecord r WHERE r.user = :user AND " +
+                        "YEAR(r.consumeDate) = :year AND MONTH(r.consumeDate) = :month " +
+                        "ORDER BY r.consumeDate DESC")
+        List<MilkTeaRecord> findByUserAndYearAndMonth(
+                        @Param("user") User user,
+                        @Param("year") int year,
+                        @Param("month") int month);
 
-    long countByUserAndConsumeDateBetween(User user, LocalDate startDate, LocalDate endDate);
+        long countByUserAndConsumeDateBetween(User user, LocalDate startDate, LocalDate endDate);
 
-    @Query("SELECT COUNT(DISTINCT r.consumeDate) FROM MilkTeaRecord r " +
-            "WHERE r.user = :user AND r.consumeDate BETWEEN :startDate AND :endDate")
-    long countDistinctDaysByUserAndConsumeDateBetween(
-            @Param("user") User user,
-            @Param("startDate") LocalDate startDate,
-            @Param("endDate") LocalDate endDate);
+        @Query("SELECT COUNT(DISTINCT r.consumeDate) FROM MilkTeaRecord r " +
+                        "WHERE r.user = :user AND r.consumeDate BETWEEN :startDate AND :endDate")
+        long countDistinctDaysByUserAndConsumeDateBetween(
+                        @Param("user") User user,
+                        @Param("startDate") LocalDate startDate,
+                        @Param("endDate") LocalDate endDate);
+
+        // 根据品类名搜索所有用户的记录
+        List<MilkTeaRecord> findByCategoryContainingIgnoreCaseOrderByConsumeDateDesc(String category);
+
+        // 根据用户和品类名搜索记录
+        List<MilkTeaRecord> findByUserAndCategoryContainingIgnoreCaseOrderByConsumeDateDesc(User user, String category);
 }

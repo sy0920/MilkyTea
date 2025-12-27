@@ -1,0 +1,60 @@
+<view class="container">
+  <view class="header">
+    <view class="search-bar">
+      <input class="search-input" placeholder="搜索奶茶名称..." bindconfirm="onSearch" bindinput="onSearchInput" value="{{searchQuery}}" confirm-type="search" />
+      <view class="search-btn" bindtap="onSearch">搜索</view>
+    </view>
+  </view>
+
+  <!-- 搜索结果统计 -->
+  <view class="search-stats" wx:if="{{isSearching && searchResult}}">
+    <view class="stat-item">
+      <text class="label">品类名称</text>
+      <text class="value">{{searchResult.category}}</text>
+    </view>
+    <view class="stat-item">
+      <text class="label">全网平均评分</text>
+      <text class="value highlight">{{searchResult.averageRating ? searchResult.averageRating : '暂无'}}</text>
+    </view>
+    <view class="stat-item">
+      <text class="label">全网记录数</text>
+      <text class="value">{{searchResult.totalCount}}</text>
+    </view>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="record-list">
+    <view class="list-header" wx:if="{{displayRecords.length > 0}}">
+      <text>我的记录</text>
+    </view>
+    
+    <block wx:if="{{displayRecords.length > 0}}">
+      <view class="record-item" wx:for="{{displayRecords}}" wx:key="id" bindtap="onRecordTap" data-id="{{item.id}}">
+        <view class="record-main">
+          <image class="brand-logo" src="{{item.brandLogo || '/assets/default-logo.png'}}" mode="aspectFill"></image>
+          <view class="record-info">
+            <view class="record-title">
+              <text class="brand-name">{{item.brandName}}</text>
+              <text class="category">{{item.category}}</text>
+            </view>
+            <view class="record-meta">
+              <text class="date">{{item.consumeDate}}</text>
+              <text class="price">¥{{item.price}}</text>
+            </view>
+            <view class="record-comment" wx:if="{{item.comment}}">
+              <text class="comment-text">{{item.comment}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="record-rating">
+          <text class="rating-score">{{item.rating}}</text>
+          <text class="rating-label">分</text>
+        </view>
+      </view>
+    </block>
+    
+    <view class="empty-state" wx:else>
+      <text>暂无记录</text>
+    </view>
+  </view>
+</view>

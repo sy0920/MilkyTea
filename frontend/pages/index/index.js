@@ -115,6 +115,11 @@ Page({
   },
 
   async onLoad() {
+    const authStore = require('../../stores/auth.js');
+    if (!authStore.isAuthenticated()) {
+      wx.reLaunch({ url: '/pages/login/login' });
+      return;
+    }
     await this.loadData();
   },
 
@@ -158,6 +163,11 @@ Page({
       this.getTabBar().setData({
         selected: 0
       })
+    }
+    const authStore = require('../../stores/auth.js');
+    if (!authStore.isAuthenticated()) {
+      wx.reLaunch({ url: '/pages/login/login' });
+      return;
     }
     await this.loadData();
   },

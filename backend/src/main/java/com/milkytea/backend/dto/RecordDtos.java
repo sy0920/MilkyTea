@@ -139,4 +139,22 @@ public class RecordDtos {
         @Schema(description = "要删除的记录ID列表", example = "[1, 2, 3]")
         private List<Long> ids;
     }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "根据奶茶名搜索响应")
+    public static class SearchByCategoryResponse {
+        @Schema(description = "品类名称")
+        private String category;
+
+        @Schema(description = "当前用户的记录列表")
+        private List<RecordResponse> myRecords;
+
+        @Schema(description = "所有用户的平均评分")
+        private Double averageRating;
+
+        @Schema(description = "总记录数（所有用户）")
+        private Long totalCount;
+    }
 }

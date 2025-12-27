@@ -90,4 +90,14 @@ public class RecordController {
         recordService.batchDeleteRecords(username, request.getIds());
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/search")
+    @Operation(summary = "根据奶茶名搜索记录", description = "根据品类名搜索记录，返回当前用户的记录和所有用户的平均评分")
+    public ResponseEntity<RecordDtos.SearchByCategoryResponse> searchByCategory(
+            Authentication authentication,
+            @RequestParam String category) {
+        String username = authentication.getName();
+        RecordDtos.SearchByCategoryResponse response = recordService.searchByCategory(username, category);
+        return ResponseEntity.ok(response);
+    }
 }
