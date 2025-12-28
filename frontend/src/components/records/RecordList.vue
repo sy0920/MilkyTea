@@ -98,10 +98,6 @@ const onRecordClick = (record) => {
           {{ searchResult.averageRating ? searchResult.averageRating.toFixed(1) : '暂无' }}
         </span>
       </div>
-      <div class="stat-item">
-        <span class="label">全网记录数</span>
-        <span class="value">{{ searchResult.totalCount }}</span>
-      </div>
     </div>
 
     <div v-if="error" class="error-message">{{ error }}</div>
